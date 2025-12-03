@@ -5,29 +5,30 @@ export const data = new SlashCommandBuilder()
 	.setDescription("so true");
 
 const types = [
-	":torterrable:",
-	":sandshrew4prez:",
-	":agentavocado:",
-	":eeli:",
-	":moth mad:",
-	":john rei:",
-	":cinn:",
-	":evolto:",
-	":bigweff:",
-	":bugsnax:",
-	":kaploop:",
-	":nexomaki:",
-	":seija:",
-	":thomas wang:",
-	":fake:",
-	":grace:",
-	":goose:",
-	":spielearmy:",
-	":vimby:",
-	":maz:",
-	":birp:",
-	":alakadabra:",
-	":salamander:",
+	"torterrable",
+	"sandshrew",
+	"agentavocado",
+	"eeli",
+	"moth mad",
+	"john rei",
+	"cinn",
+	"evolto",
+	"bigweff",
+	"bugsnax",
+	"kaploop",
+	"nexomaki",
+	"seija",
+	"thomas wang",
+	"fake",
+	"grace",
+	"goose",
+	"spielearmy",
+	"vimby",
+	"maz",
+	"birp",
+	"alakadbra",
+	"salamander",
+	"brother david",
 
 ];
 
@@ -35,7 +36,7 @@ export async function execute(interaction) {
 	const randomType = types[Math.floor(Math.random() * types.length)];
 	const variations = [
 		`${randomType} should go live`,
-		`$Unfortunately {randomType} got widegrabbed`,
+		`Unfortunately ${randomType} got widegrabbed`,
 		`You should ask ${randomType} to stop elo sitting`,
 		`${randomType} should play more ground`,
 		`Don't listen to the haters, ${randomType} will go 9th`,
@@ -43,7 +44,7 @@ export async function execute(interaction) {
 		`${randomType} should drink more water`,
 		`${randomType}'s board has the juice.`,
 		`${randomType}' is cooking`,
-		`$We support {randomType} :cyndaheart:`,
+		`We support ${randomType} :cyndaheart: `,
 	
 	];
 	const randomVariation =
