@@ -31,7 +31,11 @@ const names = [
 	"brother david",
 	"exeatop",
 	"5g_arty",
-	"eelmaz torcado smithbald papelson cinnang weffberg"
+	"eelmaz torcado smithbald papelson cinnang weffberg",
+	"waterelle",
+	"birdlives",
+	"spanishcrow",
+	"katbor",
 ];
 
 const synergies = [
@@ -96,7 +100,15 @@ export async function execute(interaction) {
 		`${randomSynergy} is overrated`,
 		`Can we rework ${randomSynergy} please`,
 		`You are my goat, ${randomName} <3`,
-		`Swadloon was a 🍃🐛 15 golds Ultra unit with 280 ❤️20 🛡️, 12 SPDEF, 22 ✊, 54 🦵 with a 1-range ability costing 100 🌊 to unleash 60 TRUE damage, 60 SPECIAL Damage, 60 PHYSICAL Damage, totaling 180 Damage before defense calculation, with some Ability Power, swadloon can one shot a highly defensive unit like a 3-stack Groudon. Combined with the absurd item Shiny Charm ✨and some defensive items, Swadloon effectively survive for half of the battle duration it is field in.`
+		`Swadloon was a 🍃🐛 15 golds Ultra unit with 280 ❤️20 🛡️, 12 SPDEF, 22 ✊, 54 🦵 with a 1-range ability costing 100 🌊 to unleash 60 TRUE damage, 60 SPECIAL Damage, 60 PHYSICAL Damage, totaling 180 Damage before defense calculation, with some Ability Power, swadloon can one shot a highly defensive unit like a 3-stack Groudon. Combined with the absurd item Shiny Charm ✨and some defensive items, Swadloon effectively survive for half of the battle duration it is field in.`,
+		`${randomName} knows the sauce`,
+		`${randomName} should rethink their ${randomSynergy} gameplay`,
+		`Why are you not dancing ${randomName}?`,
+		`${randomName} ..., we need a bigger boat.`,
+		`${randomName} stop stealing ${randomSynergy} portals`,
+		`thanks for being you ${randomName} <3`,
+		`don't hide, we can see you ${randomName}`,
+		`${randomName} for president`
 		
 	
 	];
