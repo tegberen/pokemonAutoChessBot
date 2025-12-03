@@ -95,6 +95,7 @@ export async function execute(interaction) {
 		`${randomSynergy} is overrated`,
 		`Can we rework ${randomSynergy} please`,
 		`You are my goat, ${randomName} <3`,
+		`Swadloon was a 🍃🐛 15 golds Ultra unit with 280 ❤️20 🛡️, 12 SPDEF, 22 ✊, 54 🦵 with a 1-range ability costing 100 🌊 to unleash 60 TRUE damage, 60 SPECIAL Damage, 60 PHYSICAL Damage, totaling 180 Damage before defense calculation, with some Ability Power, swadloon can one shot a highly defensive unit like a 3-stack Groudon. Combined with the absurd item Shiny Charm ✨and some defensive items, Swadloon effectively survive for half of the battle duration it is field in.`
 		
 	
 	];
