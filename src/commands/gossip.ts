@@ -26,10 +26,11 @@ const names = [
 	"vimby",
 	"maz",
 	"birp",
-	"alakadbra",
+	"alakadabra",
 	"salamander",
 	"brother david",
-
+	"exeatop",
+	"5g_arty"
 ];
 
 const synergies = [
@@ -84,6 +85,16 @@ export async function execute(interaction) {
 		`${randomName} played too much and needs a break`,
 		`Hold the phone, ${randomName}.`,
 		`${randomName} should build more ${randomItem}`,
+		`${randomName} let the dogs out ... `,
+		`Go watch some Scooby Doo ${randomName}`,
+		`We saw that ${randomName} ... `,
+		`${randomName} tell them, go tell them the truth`,
+		`Check out last game from ${randomName}. holey`,
+		`${randomName}, do you even ${randomItem}`,
+		`I miss ${randomName}`,
+		`${randomSynergy} is overrated`,
+		`Can we rework ${randomSynergy} please`,
+		`You are my goat, ${randomName} <3`,
 		
 	
 	];
