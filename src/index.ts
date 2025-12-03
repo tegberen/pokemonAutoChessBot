@@ -11,7 +11,7 @@ const client = new Client({
 }) as ClientWithCommands;
 
 if (process.env.MONGO_URI) {
-  mongoose.connect(process.env.MONGO_URI)
+  Mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.log('MongoDB not connected:', err.message));
 } else {
