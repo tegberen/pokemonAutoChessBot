@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import Mongoose from "mongoose";
 import fs from "node:fs";
 import path from "node:path";
+import http from 'http';
 
 dotenv.config();
 
@@ -58,3 +59,14 @@ client.on(Events.InteractionCreate, async (interaction) => {
 });
 
 client.login(process.env.BOT_TOKEN);
+
+// simple http server?
+const PORT = process.env.PORT || 3000;
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Discord bot works?!');
+});
+
+server.listen(PORT, () => {
+  console.log(` ... running on port ${PORT}`);
+});
