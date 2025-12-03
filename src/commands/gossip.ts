@@ -30,7 +30,8 @@ const names = [
 	"salamander",
 	"brother david",
 	"exeatop",
-	"5g_arty"
+	"5g_arty",
+	"eelmaz torcado smithbald papelson cinnang weffberg"
 ];
 
 const synergies = [
