@@ -4,7 +4,7 @@ export const data = new SlashCommandBuilder()
 	.setName("gossip")
 	.setDescription("so true");
 
-const types = [
+const names = [
 	"torterrable",
 	"sandshrew",
 	"agentavocado",
@@ -32,19 +32,59 @@ const types = [
 
 ];
 
+const synergies = [
+  "normal", "grass", "fire", "water", "electric", "fighting", 
+  "psychic", "dark", "steel", "ground", "poison", "dragon", 
+  "field", "monster", "human", "aquatic", "bug", "flying", 
+  "flora", "rock", "ghost", "fairy", "ice", "fossil", "sound", 
+  "artificial", "light", "wild", "baby", "amorphous"
+];
+
+
+const items = [
+  "Reapers Cloth", "Ability Shield", "Nomicon", "Powerlens", "Heavy Duty Boots", 
+  "Souldew", "Stones", "X-Ray", "Razor Fang", "Gracidae", "Punching Gloves", 
+  "Loaded Dice", "Muscle Band", "Blue Orb", "Smokeball", "Razor Claw", 
+  "Widelens", "Fluffy Tail *cough* Goggles", "Scope Lens", "Max Revive", "Sticky Barb", 
+  "Star Dust", "Flame Orb", "Deep Sea Tooth", "Green Orb", "Pokedoll", 
+  "Rocky Helmet", "AV", "Shiny Charm", "Shell Bell", "Protective Pads", "King's Rock", 
+  "Aqua Egg"
+];
+
+
+const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
 export async function execute(interaction) {
-	const randomType = types[Math.floor(Math.random() * types.length)];
+	const randomName = pick(names);
+	const randomSynergy = pick(synergies);
+	const randomItem = pick(items);
+	
 	const variations = [
-		`${randomType} should go live`,
-		`Unfortunately ${randomType} got widegrabbed`,
-		`You should ask ${randomType} to stop elo sitting`,
-		`${randomType} should play more ground`,
-		`Don't listen to the haters, ${randomType} will go 9th`,
-		`Without hesitation, ${randomType} is the best reroller in the current meta`,
-		`${randomType} should drink more water`,
-		`${randomType}'s board has the juice.`,
-		`${randomType}' is cooking`,
-		`We support ${randomType} :cyndaheart: `,
+		`${randomName} should go live`,
+		`Unfortunately ${randomName} got widegrabbed`,
+		`You should ask ${randomName} to stop elo sitting`,
+		`${randomName} should play more ${randomSynergy}`,
+		`Listen to the haters, ${randomName} will go 9th`,
+		`Without hesitation, ${randomName} is the best reroller in the current meta`,
+		`${randomName} should drink more water`,
+		`${randomName}'s board has the juice.`,
+		`${randomName} is cooking`,
+		`We support ${randomName} :cyndaheart: `,
+		`Pharaos curse: Red Gary for ${randomName}`,
+		`${randomName} should make more Wonderbox`,
+		`${randomName} should psycho-level 5 stage 6`,
+		`${randomName} should write a guide`,
+		`${randomName} should join afk lobbies`,
+		`${randomName} should stop rolling`,
+		`${randomName} has no angle`,
+		`${randomName} is just awesome`,
+		`${randomName} bribed curry`,
+		`${randomName} bribed keldaan`,
+		`${randomName} is fucking broke`,
+		`${randomName} played too much and needs a break`,
+		`Hold the phone, ${randomName}.`,
+		`${randomName} should build more ${randomItem}`,
+		
 	
 	];
 	const randomVariation =
