@@ -10,7 +10,13 @@ const client = new Client({
 	intents: [GatewayIntentBits.Guilds],
 }) as ClientWithCommands;
 
-Mongoose.connect(process.env.MONGO_URI!);
+if (process.env.MONGO_URI) {
+  mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.log('MongoDB not connected:', err.message));
+} else {
+  console.log('Skip Mongo');
+}
 
 interface ClientWithCommands extends Client {
 	commands: Collection<string, any>;
