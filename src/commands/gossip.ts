@@ -128,7 +128,7 @@ export async function execute(interaction) {
 		`You should try ${randomSynergy1}-${randomSynergy2} boards.`,
 		`When in doubt play ${randomSynergy1} or ${randomSynergy2}`,
 		`Stop one tricking ${randomSynergy1} and play ${randomSynergy2} instead.`,
-		`Your last ${randomSynergy1} game was not da wae. This would not happen with "${randomSynergy2} synergy.`,
+		`Your last ${randomSynergy1} game was not da wae. This would not happen with ${randomSynergy2} and you know that.`,
 		`We believe in ${randomSynergy1} in this household.`,
 		`Stop thinking about ${randomSynergy1}, ${randomName}`,
 		`Go do some Push-ups ${randomName}!`,
