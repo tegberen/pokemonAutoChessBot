@@ -60,16 +60,25 @@ const items = [
 
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
+const pickTwo = (arr) => {
+	const first = pick(arr);
+	let second = pick(arr);
+	while (second === first) {
+		second = pick(arr);
+	}
+	return [first, second];
+};
+
 export async function execute(interaction) {
 	const randomName = pick(names);
-	const randomSynergy = pick(synergies);
-	const randomItem = pick(items);
+	const [randomSynergy1, randomSynergy2] = pickTwo(synergies);
+	const [randomitem1, randomitem2] = pickTwo(items);
 	
 	const variations = [
 		`${randomName} should go live`,
 		`Unfortunately ${randomName} got widegrabbed`,
 		`You should ask ${randomName} to stop elo sitting`,
-		`${randomName} should play more ${randomSynergy}`,
+		`${randomName} should play more ${randomSynergy1}`,
 		`Listen to the haters, ${randomName} will go 9th`,
 		`Without hesitation, ${randomName} is the best reroller in the current meta`,
 		`${randomName} should drink more water`,
@@ -89,29 +98,47 @@ export async function execute(interaction) {
 		`${randomName} is fucking broke`,
 		`${randomName} played too much and needs a break`,
 		`Hold the phone, ${randomName}.`,
-		`${randomName} should build more ${randomItem}`,
+		`${randomName} should build more ${randomitem1}`,
 		`${randomName} let the dogs out ... `,
 		`Go watch some Scooby Doo ${randomName}`,
 		`We saw that ${randomName} ... `,
 		`${randomName} tell them, go tell them the truth`,
 		`Check out last game from ${randomName}. holey`,
-		`${randomName}, do you even ${randomItem}`,
+		`${randomName}, do you even build ${randomitem1}`,
 		`I miss ${randomName}`,
-		`${randomSynergy} is overrated`,
-		`Can we rework ${randomSynergy} please`,
+		`${randomSynergy1} is overrated`,
+		`${randomSynergy1} is underrated`,
+		`Can we rework ${randomSynergy1} please`,
 		`You are my goat, ${randomName} <3`,
 		`Swadloon was a 🍃🐛 15 golds Ultra unit with 280 ❤️20 🛡️, 12 SPDEF, 22 ✊, 54 🦵 with a 1-range ability costing 100 🌊 to unleash 60 TRUE damage, 60 SPECIAL Damage, 60 PHYSICAL Damage, totaling 180 Damage before defense calculation, with some Ability Power, swadloon can one shot a highly defensive unit like a 3-stack Groudon. Combined with the absurd item Shiny Charm ✨and some defensive items, Swadloon effectively survive for half of the battle duration it is field in.`,
 		`${randomName} knows the sauce`,
-		`${randomName} should rethink their ${randomSynergy} gameplay`,
+		`${randomName} should rethink their ${randomSynergy1} gameplay`,
 		`Why are you not dancing ${randomName}?`,
 		`${randomName} ..., we need a bigger boat.`,
-		`${randomName} stop stealing ${randomSynergy} portals`,
+		`${randomName} stop stealing ${randomSynergy1} portals`,
 		`thanks for being you ${randomName} <3`,
 		`don't hide, we can see you ${randomName}`,
 		`${randomName} for president`,
 		`No one does it like ${randomName}`,
 		`${randomName} stop eating all the cookies ......`,
-		`Not bad ${randomName}, not bad.`
+		`Not bad ${randomName}, not bad.`,
+		`${randomName} should pair ${randomItem1} with ${randomItem2}`,
+		`${randomName} should not pair ${randomItem1} with ${randomItem2}`,
+		`${randomName} thinks ${randomSynergy1} beats ${randomSynergy2}`,
+		`You should try ${randomSynergy1}-${randomSynergy2} boards.`,
+		`When in doubt play ${randomSynergy1} or ${randomSynergy2}`,
+		`Stop one tricking ${randomSynergy1} and play ${randomSynergy2} instead.`,
+		`Your last ${randomSynergy1} game was not da wae. This would not happen with "${randomSynergy2} synergy.`,
+		`We believe in ${randomSynergy1} in this household.`,
+		`Stop thinking about ${randomSynergy1}, ${randomName}`,
+		`Go do some Push-ups ${randomName}!`,
+		`No one plays ${randomSynergy1}-${randomSynergy2}, like ${randomName} <:Cinnema:1439722789178179705>`,
+		`What was that ${randomName}?? <:OlmecBlush:1441967621544087624>`,
+		`Shut up ${randomName}, I love you.`,
+		`Calm down ${randomName}, it's just a luck based online browser game.`,
+		`${randomName}, you should take pocket monster automatic chess more serious.`,
+		`${randomName} is our hero <:Prayge:1428682058896511049>`,
+		`${randomName} should win next tournament with ${randomSynergy1}.`
 		
 	
 	];
