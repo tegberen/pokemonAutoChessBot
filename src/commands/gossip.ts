@@ -72,7 +72,7 @@ const pickTwo = (arr) => {
 export async function execute(interaction) {
 	const randomName = pick(names);
 	const [randomSynergy1, randomSynergy2] = pickTwo(synergies);
-	const [randomitem1, randomitem2] = pickTwo(items);
+	const [randomItem1, randomItem2] = pickTwo(items);
 	
 	const variations = [
 		`${randomName} should go live`,
@@ -98,13 +98,13 @@ export async function execute(interaction) {
 		`${randomName} is fucking broke`,
 		`${randomName} played too much and needs a break`,
 		`Hold the phone, ${randomName}.`,
-		`${randomName} should build more ${randomitem1}`,
+		`${randomName} should build more ${randomItem1}`,
 		`${randomName} let the dogs out ... `,
 		`Go watch some Scooby Doo ${randomName}`,
 		`We saw that ${randomName} ... `,
 		`${randomName} tell them, go tell them the truth`,
 		`Check out last game from ${randomName}. holey`,
-		`${randomName}, do you even build ${randomitem1}`,
+		`${randomName}, do you even build ${randomItem1}`,
 		`I miss ${randomName}`,
 		`${randomSynergy1} is overrated`,
 		`${randomSynergy1} is underrated`,
