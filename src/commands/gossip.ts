@@ -109,6 +109,9 @@ export async function execute(interaction) {
 		`thanks for being you ${randomName} <3`,
 		`don't hide, we can see you ${randomName}`,
 		`${randomName} for president`,
+		`No one does it like ${randomName}`,
+		`${randomName} stop eating all the cookies ......`,
+		`Not bad ${randomName}, not bad.`
 		
 	
 	];
