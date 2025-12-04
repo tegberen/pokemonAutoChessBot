@@ -75,10 +75,10 @@ export async function execute(interaction) {
 		`${randomName} should drink more water`,
 		`${randomName}'s board has the juice.`,
 		`${randomName} is cooking`,
-		`We support ${randomName} :cyndaheart: `,
+		`We support ${randomName} <:cyndaheart:1416512341213843518> `,
 		`Pharaos curse: Red Gary for ${randomName}`,
 		`${randomName} should make more Wonderbox`,
-		`${randomName} should psycho-level 5 stage 6`,
+		`${randomName} should psycholevel to 5 at stage 6`,
 		`${randomName} should write a guide`,
 		`${randomName} should join afk lobbies`,
 		`${randomName} should stop rolling`,
@@ -108,7 +108,7 @@ export async function execute(interaction) {
 		`${randomName} stop stealing ${randomSynergy} portals`,
 		`thanks for being you ${randomName} <3`,
 		`don't hide, we can see you ${randomName}`,
-		`${randomName} for president`
+		`${randomName} for president`,
 		
 	
 	];
