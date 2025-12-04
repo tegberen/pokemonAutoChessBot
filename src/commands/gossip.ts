@@ -36,7 +36,8 @@ const names = [
 	"birdlives",
 	"spanishcrow",
 	"katbor",
-	"esna"
+	"esna",
+	"emi"
 ];
 
 const synergies = [
@@ -139,7 +140,8 @@ export async function execute(interaction) {
 		`Calm down ${randomName}, it's just a luck based online browser game.`,
 		`${randomName}, you should take pocket monster automatic chess more serious.`,
 		`${randomName} is our hero <:Prayge:1428682058896511049>`,
-		`${randomName} should win next tournament with ${randomSynergy1}.`
+		`${randomName} should win next tournament with ${randomSynergy1}.`,
+		`You should have a nice day and be silly - life does not have to be that serious all the time <:cyndaheart:1416512341213843518>`
 		
 	
 	];
