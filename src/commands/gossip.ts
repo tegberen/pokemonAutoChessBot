@@ -36,6 +36,7 @@ const names = [
 	"birdlives",
 	"spanishcrow",
 	"katbor",
+	"esna"
 ];
 
 const synergies = [
