@@ -21,8 +21,8 @@ interface WikiPageResult {
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('testfish')
-    .setDescription('testfish command'),
+    .setName('fish')
+    .setDescription('me olmec, you fish'),
   
   async execute(interaction: any) {
     const fishList = [
