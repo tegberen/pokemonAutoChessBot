@@ -141,7 +141,8 @@ export async function execute(interaction) {
 		`${randomName}, you should take pocket monster automatic chess more serious.`,
 		`${randomName} is our hero <:Prayge:1428682058896511049>`,
 		`${randomName} should win next tournament with ${randomSynergy1}.`,
-		`You should have a nice day and be silly - life does not have to be that serious all the time <:cyndaheart:1416512341213843518>`
+		`You should have a nice day and be silly - life does not have to be that serious all the time <:cyndaheart:1416512341213843518>`,
+		`stop making hydrapple and make appletun instead, its a 250 12/12 <:250_12_12:1446467872770494528>`
 		
 	
 	];
