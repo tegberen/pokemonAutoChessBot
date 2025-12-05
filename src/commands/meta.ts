@@ -24,7 +24,7 @@ const pickTwo = (arr) => {
 };
 
 export async function execute(interaction) {
-	const [randomSynergy1, randomSynergy2] = pickTwo(synergies);
+	const [randomType1, randomType2] = pickTwo(synergies);
 	
 	const variations = [
 		`The current meta is all about ${randomType1}`,
