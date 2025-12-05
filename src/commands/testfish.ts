@@ -1,42 +1,47 @@
 const { SlashCommandBuilder } = require('discord.js');
 const https = require('https');
+// add ifaces
+interface WikiSearchResult {
+  query?: {
+    search?: Array<{ pageid: number }>;
+  };
+}
+
+interface WikiPageResult {
+  query: {
+    pages: {
+      [key: string]: {
+        original?: {
+          source: string;
+        };
+      };
+    };
+  };
+}
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('testfish')
     .setDescription('testfish command'),
   
-  async execute(interaction) {
+  async execute(interaction: any) {
     const fishList = [
-      "Great white shark",
-      "Clownfish",
-      "Blue tang",
-      "Goldfish",
-      "Betta fish",
-      "Guppy",
-      "Angelfish",
-      "Swordfish",
       "Tuna",
       "Salmon",
-      "Manta ray",
-      "Hammerhead shark",
-      "Seahorse",
-      "Pufferfish",
-      "Lionfish"
     ];
     
     const fish = fishList[Math.floor(Math.random() * fishList.length)];
     await interaction.deferReply();
     
     try {
-      const searchData = await fetchWikipedia(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(fish)}&format=json`);
+      const searchData = await fetchWikipedia(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(fish)}&format=json`) as WikiSearchResult;
       
       if (!searchData.query?.search?.[0]) {
         return interaction.editReply(`dont have the fish`);
       }
       
       const pageId = searchData.query.search[0].pageid;
-      const pageData = await fetchWikipedia(`https://en.wikipedia.org/w/api.php?action=query&pageids=${pageId}&prop=pageimages&piprop=original&format=json`);
+      const pageData = await fetchWikipedia(`https://en.wikipedia.org/w/api.php?action=query&pageids=${pageId}&prop=pageimages&piprop=original&format=json`) as WikiPageResult;
       
       const imageUrl = pageData.query.pages[pageId].original?.source;
       
