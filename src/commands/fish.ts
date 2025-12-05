@@ -1126,11 +1126,10 @@ module.exports = {
       
       const imageUrl = pageData.query.pages[pageId].original?.source;
       
-      if (!imageUrl) {
-        return interaction.editReply(`dont have the fish img`);
-      }
-      // fish and weight
       const randomWeight = Math.floor(Math.random() * 1000) + 1;
+      if (!imageUrl) {
+        return interaction.editReply(`You caught a ${fish}, it weighs ${randomWeight}kg`);
+      }
       return interaction.editReply({
         content: `You caught a ${fish}, it weighs ${randomWeight}kg`,
         files: [imageUrl]
