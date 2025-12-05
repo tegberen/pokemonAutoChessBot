@@ -4,7 +4,7 @@ export const data = new SlashCommandBuilder()
 	.setName("meta")
 	.setDescription("What is meta right now?");
 
-const types = [
+const synergies = [
   "normal", "grass", "fire", "water", "electric", "fighting", 
   "psychic", "dark", "steel", "ground", "poison", "dragon", 
   "field", "monster", "human", "aquatic", "bug", "flying", 
