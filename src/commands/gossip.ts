@@ -142,7 +142,18 @@ export async function execute(interaction) {
 		`${randomName} is our hero <:Prayge:1428682058896511049>`,
 		`${randomName} should win next tournament with ${randomSynergy1}.`,
 		`You should have a nice day and be silly - life does not have to be that serious all the time <:cyndaheart:1416512341213843518>`,
-		`stop making hydrapple and make appletun instead, its a 250 12/12 <:250_12_12:1446467872770494528>`
+		`stop making hydrapple and make appletun instead, its a 250 12/12 <:250_12_12:1446467872770494528>`,
+		`${randomName} should start coaching ${randomSynergy1}`,
+		`Who is my sunshine? It's ${randomName} <3`,
+		`Why are you always so right`,
+		`Enough gossip for today ...`,
+		`You should ping ${randomName} <:OmeteKappa:1419992976678981664>`,
+		`You should never ping ${randomName} <:eelstare:1433667241349742642>`,
+		`I don't know, go ask ${randomName} how to play ${randomSynergy1}-${randomSynergy2} properly.`,
+		`${randomName} should be timed out <:Angrytwig:1440529743391883345>`,
+		`I would never ban ${randomName} for playing ${randomSynergy1} <:snorlaxsideeye:1429987764924846160>`,
+		`Stop it. <:youwhat:1416513101607600279>`,
+		`<:BoomPants:1443728658262130800>`
 		
 	
 	];
