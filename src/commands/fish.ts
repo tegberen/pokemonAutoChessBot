@@ -22,16 +22,6 @@ interface WikiPageResult {
   };
 }
 
-interface PokeAPIResponse {
-  sprites: {
-    other: {
-      'official-artwork': {
-        front_default: string;
-      };
-    };
-  };
-}
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('fish')
@@ -1124,101 +1114,48 @@ module.exports = {
           "Zebra tilapia",
           "Swedish fish" // mythical pull
     ];
-
-    const pokemonFishIds = [
-          129, // Magikarp
-          618, // Stunfisk
-          349, // Feebas
-          118, // Goldeen
-          171, // Lanturn
-          370, // Luvdisc
-          369, // Relicanth
-          340, // Whiscash
-          746, // Wishiwashi
-          847, // Barraskewda
-          779, // Bruxish
-          318, // Carvanha
-          604, // Eelektross
-          368, // Gorebyss
-          119, // Seaking
-          594, // Alomamola
-          339, // Barboach
-          170, // Chinchou
-          87,  // Dewgong
-          691, // Dragalge
-          116, // Horsea
-          457, // Lumineon
-          211, // Qwilfish
-          223, // Remoraid
-          976, // Veluza
-          977, // Dondozo
-          550, // Basculin
-          978  // Tatsugiri
-  ];
-
-async execute(interaction: any) {
-  await interaction.deferReply();
-  
-  try {
-          const isPokemon = Math.random() < 0.00025;
-          
-          if (isPokemon) {
-            const pokemonId = pokemonFishIds[Math.floor(Math.random() * pokemonFishIds.length)];
-            const randomWeight = Math.floor(Math.random() * 1000) + 1;
-            
-            const pokeData = await fetchPokeAPI(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`) as PokeAPIResponse;
-            const imageUrl = pokeData.sprites.other['official-artwork'].front_default;
-            const pokemonName = pokeData.name.charAt(0).toUpperCase() + pokeData.name.slice(1);
-            
-            if (!imageUrl) {
-              return interaction.editReply(`You caught a ${pokemonName}! It weighs ${randomWeight}kg`);
-            }
-            
-            return interaction.editReply({
-              content: `Mythical pull! You caught a ${pokemonName}! It weighs ${randomWeight}kg!`,
-              files: [imageUrl]
-            });
-          
-    } else {
     
-          const fish = fishList[Math.floor(Math.random() * fishList.length)];
+    const fish = fishList[Math.floor(Math.random() * fishList.length)];
+    await interaction.deferReply();
+    
+    try {
+      const searchData = await fetchWikipedia(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(fish)}&format=json`) as WikiSearchResult;
       
-          const searchData = await fetchWikipedia(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(fish)}&format=json`) as WikiSearchResult;
-          
-          if (!searchData.query?.search?.[0]) {
-            return interaction.editReply(`dont have the fish`);
-          }
-          
-          const pageId = searchData.query.search[0].pageid;
-          const pageData = await fetchWikipedia(`https://en.wikipedia.org/w/api.php?action=query&pageids=${pageId}&prop=pageimages&piprop=original|thumbnail&pithumbsize=800&format=json`) as WikiPageResult;
-          const page = pageData.query.pages[pageId];
-          const randomWeight = Math.floor(Math.random() * 1000) + 1;
-          
-          const imageUrl = page.thumbnail?.source || page.original?.source;
-          if (!imageUrl) {
-            return interaction.editReply(`You caught a ${fish}, it weighs ${randomWeight}kg`);
-          }
-    
-          const fileSize = await getFileSize(imageUrl);
-          const MAX_SIZE = 25 * 1024 * 1024; // try 25 mb
-          
-          if (fileSize > MAX_SIZE) {
-            console.log(`Image too large (${(fileSize / 1024 / 1024).toFixed(2)}MB), sending without image`);
-            return interaction.editReply({
-              content: `You caught a ${fish}, it weighs ${randomWeight}kg`,
-            });
-          }
-          
-          return interaction.editReply({
-            content: `You caught a ${fish}, it weighs ${randomWeight}kg`,
-            files: [imageUrl]
-          });
+      if (!searchData.query?.search?.[0]) {
+        return interaction.editReply(`dont have the fish`);
+      }
+      
+      const pageId = searchData.query.search[0].pageid;
+      const pageData = await fetchWikipedia(`https://en.wikipedia.org/w/api.php?action=query&pageids=${pageId}&prop=pageimages&piprop=original|thumbnail&pithumbsize=800&format=json`) as WikiPageResult;
+      const page = pageData.query.pages[pageId];
+      const randomWeight = Math.floor(Math.random() * 1000) + 1;
+      
+      const imageUrl = page.thumbnail?.source || page.original?.source;
+      if (!imageUrl) {
+        return interaction.editReply(`You caught a ${fish}, it weighs ${randomWeight}kg`);
+      }
+
+      const fileSize = await getFileSize(imageUrl);
+      const MAX_SIZE = 25 * 1024 * 1024; // try 25 mb
+      
+      if (fileSize > MAX_SIZE) {
+        console.log(`Image too large (${(fileSize / 1024 / 1024).toFixed(2)}MB), sending without image`);
+        return interaction.editReply({
+          content: `You caught a ${fish}, it weighs ${randomWeight}kg`,
+        });
+      }
+      
+      return interaction.editReply({
+        content: `You caught a ${fish}, it weighs ${randomWeight}kg`,
+        files: [imageUrl]
+      });
       
     } catch (err) {
-          console.error(err);
-          return interaction.editReply("error fish img fetch");
+      console.error(err);
+      return interaction.editReply("error fish img fetch");
     }
-  }
+  },
+};
 //file size checker
 function getFileSize(url: string): Promise<number> {
   return new Promise((resolve, reject) => {
@@ -1230,27 +1167,6 @@ function getFileSize(url: string): Promise<number> {
 }
 // Helper function to fetch from Wikipedia API
 function fetchWikipedia(url) {
-  return new Promise((resolve, reject) => {
-    const options = {
-      headers: {
-        'User-Agent': 'discord bot - fish command'
-      }
-    };
-    https.get(url, options, (res) => {
-      let data = '';
-      res.on('data', (chunk) => data += chunk);
-      res.on('end', () => {
-        try {
-          resolve(JSON.parse(data));
-        } catch (e) {
-          reject(e);
-        }
-      });
-    }).on('error', reject);
-  });
-}
-// pokemon
-function fetchPokeAPI(url: string): Promise<unknown> {
   return new Promise((resolve, reject) => {
     const options = {
       headers: {
