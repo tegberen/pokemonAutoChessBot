@@ -14,6 +14,9 @@ interface WikiPageResult {
         original?: {
           source: string;
         };
+        thumbnail?: {
+          source: string;
+        };
       };
     };
   };
