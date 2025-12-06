@@ -28,6 +28,7 @@ interface PokeAPIResponse {
     other: {
       'official-artwork': {
         front_default: string | null;
+		front_shiny: string | null;
       };
     };
   };
@@ -1167,15 +1168,15 @@ module.exports = {
 			const randomWeight = Math.floor(Math.random() * 1000) + 1;
 			
 			const pokeData = await fetchPokeAPI(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`) as PokeAPIResponse;
-			const imageUrl = pokeData.sprites.other['official-artwork'].front_default;
+			const imageUrl = pokeData.sprites.other['official-artwork'].front_shiny;
 			const pokemonName = pokeData.name.charAt(0).toUpperCase() + pokeData.name.slice(1);
 			
 			if (!imageUrl) {
-				return interaction.editReply(`Super rare mythical Pull. You caught a ${pokemonName}! It weighs ${randomWeight}kg <:pog:1416513137536008272>`);
+				return interaction.editReply(`Super rare mythical pull. You caught a shiny ${pokemonName}! It weighs ${randomWeight}kg <:pog:1416513137536008272>`);
 			}
 			
 			return interaction.editReply({
-				content: `Super rare mythical Pull. You caught a ${pokemonName}! It weighs ${randomWeight}kg <:pog:1416513137536008272>`,
+				content: `Super rare mythical pull. You caught a shiny ${pokemonName}! It weighs ${randomWeight}kg <:pog:1416513137536008272>`,
 				files: [imageUrl]
 			});
 		
