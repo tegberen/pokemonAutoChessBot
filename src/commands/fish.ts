@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const https = require('https');
+import { savePokemonCatch } from '../services/pokemonService';
 // add ifaces
 interface WikiSearchResult {
   query?: {
@@ -1170,7 +1171,19 @@ module.exports = {
 			const pokeData = await fetchPokeAPI(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`) as PokeAPIResponse;
 			const imageUrl = pokeData.sprites.other['official-artwork'].front_shiny;
 			const pokemonName = pokeData.name.charAt(0).toUpperCase() + pokeData.name.slice(1);
-			
+	        // Save to database
+	        try {
+	          await savePokemonCatch(interaction.user.id, {
+	            pokemonId,
+	            pokemonName,
+	            weight: randomWeight,
+	            imageUrl,
+	            caughtAt: new Date()
+	          });
+	        } catch (dbError) {
+	          console.error('Failed to save Pokémon to database:', dbError);
+	          // Continue anyway - user still gets the Pokémon in chat
+	        }
 			if (!imageUrl) {
 				return interaction.editReply(`Super rare mythical pull. You caught a shiny ${pokemonName}! It weighs ${randomWeight}kg <:pog:1416513137536008272>`);
 			}
