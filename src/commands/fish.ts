@@ -1162,7 +1162,7 @@ module.exports = {
 	
 	try {
 	
-		const isPokemon = Math.random() < 0.0025;
+		const isPokemon = Math.random() < (1 / 4096);
 		
 		if (isPokemon) {
 			const pokemonId = pokemonFishIds[Math.floor(Math.random() * pokemonFishIds.length)];
