@@ -1119,7 +1119,8 @@ const fishList = [
 	"Zebra pleco",
 	"Zebra shark",
 	"Zebra tilapia",
-	"Swedish fish" // mythical pull
+	"Swedish fish", // mythical pull,
+ 	"<:pantsgrab:1442317852697821204>" //avo
 ];
 const pokemonFishIds = [
 	129, // Magikarp
