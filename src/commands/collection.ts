@@ -18,9 +18,13 @@ module.exports = {
       
       // Show last 15 catches
       const recent = pokemon.slice(0, 15);
-      const list = recent.map((p, i) => `${i + 1}. ${p.pokemonName} (${p.weight}kg)`).join('\n');
+      const list = recent.map((p, i) => {
+        const date = new Date(p.caughtAt);
+        const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+        return `${i + 1}. ${p.pokemonName} (${p.weight}kg) - ${formattedDate}`;
+      }).join('\n');
       
-      return interaction.editReply(`Shiny Collection \n\`\`\`\n${list}\n\`\`\``);
+      return interaction.editReply(`Shiny Collection\n\`\`\`\n${list}\n\`\`\``);
       
     } catch (error) {
       console.error('Error:', error);
