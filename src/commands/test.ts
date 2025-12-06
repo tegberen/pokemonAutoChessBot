@@ -1152,7 +1152,7 @@ const pokemonFishIds = [
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('test') //test for now
+		.setName('testfish') //test for now
 		.setDescription('me olmec, you fish'),
   
 	async execute(interaction: any) {
