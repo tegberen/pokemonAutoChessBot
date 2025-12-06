@@ -1160,7 +1160,7 @@ module.exports = {
 	
 	try {
 	
-		const isPokemon = Math.random() < 0.5;
+		const isPokemon = Math.random() < 0.0025;
 		
 		if (isPokemon) {
 			const pokemonId = pokemonFishIds[Math.floor(Math.random() * pokemonFishIds.length)];
@@ -1171,11 +1171,11 @@ module.exports = {
 			const pokemonName = pokeData.name.charAt(0).toUpperCase() + pokeData.name.slice(1);
 			
 			if (!imageUrl) {
-				return interaction.editReply(`You caught a ${pokemonName}! It weighs ${randomWeight}kg`);
+				return interaction.editReply(`Super rare mythical Pull. You caught a ${pokemonName}! It weighs ${randomWeight}kg <:pog:1416513137536008272>`);
 			}
 			
 			return interaction.editReply({
-				content: `You caught a ${pokemonName}! It weighs ${randomWeight}kg`,
+				content: `Super rare mythical Pull. You caught a ${pokemonName}! It weighs ${randomWeight}kg <:pog:1416513137536008272>`,
 				files: [imageUrl]
 			});
 		
