@@ -1123,34 +1123,149 @@ const fishList = [
  	"<:pantsgrab:1442317852697821204>" //avo
 ];
 const pokemonFishIds = [
-	129, // Magikarp
-	618, // Stunfisk
-	349, // Feebas
-	118, // Goldeen
-	171, // Lanturn
-	370, // Luvdisc
-	369, // Relicanth
-	340, // Whiscash
-	746, // Wishiwashi
-	847, // Barraskewda
-	779, // Bruxish
-	318, // Carvanha
-	604, // Eelektross
-	368, // Gorebyss
-	119, // Seaking
-	594, // Alomamola
-	339, // Barboach
-	170, // Chinchou
-	87,  // Dewgong
-	691, // Dragalge
+	007, // Squirtle
+	008, // Wartortle
+	009, // Blastoise
+	054, // Psyduck
+	055, // Golduck
+	060, // Poliwag
+	061, // Poliwhirl
+	062, // Poliwrath
+	072, // Tentacool
+	073, // Tentacruel
+	079, // Slowpoke
+	080, // Slowbro
+	086, // Seel
+	087, // Dewgong
+	090, // Shellder
+	091, // Cloyster
+	098, // Krabby
+	099, // Kingler
 	116, // Horsea
-	457, // Lumineon
+	117, // Seadra
+	118, // Goldeen
+	119, // Seaking
+	120, // Staryu
+	121, // Starmie
+	129, // Magikarp
+	130, // Gyarados
+	131, // Lapras
+	134, // Vaporeon
+	138, // Omanyte
+	139, // Omastar
+	140, // Kabuto
+	141, // Kabutops
+	158, // Totodile
+	159, // Croconaw
+	160, // Feraligatr
+	170, // Chinchou
+	171, // Lanturn
+	183, // Marill
+	184, // Azumarill
+	186, // Politoed
+	194, // Wooper
+	195, // Quagsire
+	199, // Slowking
 	211, // Qwilfish
+	222, // Corsola
 	223, // Remoraid
-	976, // Veluza
-	977, // Dondozo
+	224, // Octillery
+	226, // Mantine
+	230, // Kingdra
+	245, // Suicune
+	258, // Mudkip
+	259, // Marshtomp
+	260, // Swampert
+	270, // Lotad
+	271, // Lombre
+	272, // Ludicolo
+	278, // Wingull
+	279, // Pelipper
+	283, // Surskit
+	318, // Carvanha
+	319, // Sharpedo
+	320, // Wailmer
+	321, // Wailord
+	339, // Barboach
+	340, // Whiscash
+	341, // Corphish
+	342, // Crawdaunt
+	349, // Feebas
+	350, // Milotic
+	363, // Spheal
+	364, // Sealeo
+	365, // Walrein
+	366, // Clamperl
+	367, // Huntail
+	368, // Gorebyss
+	369, // Relicanth
+	370, // Luvdisc
+	382, // Kyogre
+	393, // Piplup
+	394, // Prinplup
+	395, // Empoleon
+	400, // Bibarel
+	418, // Buizel
+	419, // Floatzel
+	422, // Shellos
+	423, // Gastrodon
+	456, // Finneon
+	457, // Lumineon
+	458, // Mantyke
+	484, // Palkia
+	489, // Phione
+	490, // Manaphy
+	493, // Arceus
+	501, // Oshawott
+	502, // Dewott
+	503, // Samurott
+	535, // Tympole
+	536, // Palpitoad
+	537, // Seismitoad
 	550, // Basculin
-	978  // Tatsugiri
+	564, // Tirtouga
+	565, // Carracosta
+	592, // Frillish
+	593, // Jellicent
+	602,
+	603,
+	604,
+	647, // Keldeo
+	688, // Binacle
+	689, // Barbaracle
+	690, // Skrelp
+	692, // Clauncher
+	693, // Clawitzer
+	721, // Volcanion
+	728, // Popplio
+	729, // Brionne
+	730, // Primarina
+	746, // Wishiwashi
+	747, // Mareanie
+	748, // Toxapex
+	751, // Dewpider
+	752, // Araquanid
+	767, // Wimpod
+	768, // Golisopod
+	771, // Pyukumuku
+	773, // Silvally
+	788, // Tapu Fini
+	816, // Sobble
+	817, // Drizzile
+	818, // Inteleon
+	833, // Chewtle
+	834, // Drednaw
+	846, // Arrokuda
+	847, // Barraskewda
+	882, // Dracovish
+	883, // Arctovish
+	902, // Basculegion
+	963,
+	964, //palafin
+	976, // veluza
+	977, //dondozo
+	978,
+	493 //arceus
 ];
 
 module.exports = {
