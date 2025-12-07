@@ -1123,24 +1123,24 @@ const fishList = [
  	"<:pantsgrab:1442317852697821204>" //avo
 ];
 const pokemonFishIds = [
-	007, // Squirtle
-	008, // Wartortle
-	009, // Blastoise
-	054, // Psyduck
-	055, // Golduck
-	060, // Poliwag
-	061, // Poliwhirl
-	062, // Poliwrath
-	072, // Tentacool
-	073, // Tentacruel
-	079, // Slowpoke
-	080, // Slowbro
-	086, // Seel
-	087, // Dewgong
-	090, // Shellder
-	091, // Cloyster
-	098, // Krabby
-	099, // Kingler
+	7, // Squirtle
+	8, // Wartortle
+	9, // Blastoise
+	54, // Psyduck
+	55, // Golduck
+	60, // Poliwag
+	61, // Poliwhirl
+	62, // Poliwrath
+	72, // Tentacool
+	73, // Tentacruel
+	79, // Slowpoke
+	80, // Slowbro
+	86, // Seel
+	87, // Dewgong
+	90, // Shellder
+	91, // Cloyster
+	98, // Krabby
+	99, // Kingler
 	116, // Horsea
 	117, // Seadra
 	118, // Goldeen
