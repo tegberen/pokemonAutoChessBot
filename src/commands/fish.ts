@@ -1546,7 +1546,7 @@ module.exports = {
 			const isDLC = Math.random() < DLC_CATCH_RATE;
 			const fishArray = isDLC ? dlcFishList : fishList;
 			const fish = fishArray[Math.floor(Math.random() * fishArray.length)];
-			const legallyEthically = isDLC ? " legally and ethically" : "";
+			//const legallyEthically = isDLC ? " legally and ethically" : "";
 			
 			const searchData = await fetchWikipedia(
 				`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(fish)}&format=json`
@@ -1561,14 +1561,16 @@ module.exports = {
 				`https://en.wikipedia.org/w/api.php?action=query&pageids=${pageId}&prop=pageimages&piprop=original|thumbnail&pithumbsize=800&format=json`
 			) as WikiPageResult;
 			
-			const randomWeight = Math.random() < 0.01 
-				? (Math.random() * 0.9 + 0.1).toFixed(1) // 0.1 to 0.9
-				: Math.floor(Math.random() * 100000) + 1; // 1 to 100000
+			const weightRange = getWeightRange(fish);
+			const randomWeight = weightRange.max < 1 
+			  ? (Math.random() * (weightRange.max - weightRange.min) + weightRange.min).toFixed(1) // small case
+			  : Math.floor(Math.random() * (weightRange.max - weightRange.min + 1)) + weightRange.min;
+			
 			const page = pageData.query.pages[pageId];
 			const imageUrl = page.thumbnail?.source || page.original?.source;
 			
 			if (!imageUrl) {
-				return interaction.editReply(`You${legallyEthically} caught a ${fish}, it weighs ${randomWeight}kg`);
+				return interaction.editReply(`You legally and ethically caught a ${fish}, it weighs ${randomWeight}kg`);
 			}
 
 			const fileSize = await getFileSize(imageUrl);
@@ -1577,12 +1579,12 @@ module.exports = {
 			if (fileSize > MAX_SIZE) {
 				console.log(`img error`);
 				return interaction.editReply({
-				content: `You${legallyEthically} caught a ${fish}, it weighs ${randomWeight}kg`,
+				content: `You legally and ethically caught a ${fish}, it weighs ${randomWeight}kg`,
 				});
 			}
 			
 			return interaction.editReply({
-				content: `You${legallyEthically} caught a ${fish}, it weighs ${randomWeight}kg`,
+				content: `You legally and ethically caught a ${fish}, it weighs ${randomWeight}kg`,
 				files: [imageUrl]
 			});
 		}
@@ -1645,4 +1647,54 @@ function fetchPokeAPI(url: string): Promise<unknown> {
       });
     }).on('error', reject);
   });
+}
+// weight range
+function getWeightRange(fishName: string): { min: number; max: number } {
+  const name = fishName.toLowerCase();
+  
+  //sharks and whales
+  if (name.includes('whale') || 
+      name.includes('shark') && (name.includes('great white') || name.includes('basking') || 
+      name.includes('whale shark') || name.includes('megalodon'))) {
+    return { min: 1000, max: 100000 };
+  }
+  
+  //jmts
+  if (name.includes('seal') || 
+      name.includes('sea lion') || 
+      name.includes('walrus') ||
+      name.includes('shark')) {
+    return { min: 100, max: 10000 };
+  }
+  
+  //seijas
+  if (name.includes('jelly') ||
+	  name.includes('shrimp') || 
+      name.includes('prawn') || 
+      name.includes('crab') && !name.includes('crabby') ||
+      name.includes('lobster') && Math.random() < 0.3) { // 30% chance lobsters are small
+    return { min: 0.1, max: 0.9 };
+  }
+  
+  //mammal
+  if (name.includes('tuna') || 
+      name.includes('marlin') || 
+      name.includes('swordfish') ||
+      name.includes('sturgeon') ||
+      name.includes('otter') ||
+      name.includes('dolphin') ||
+      name.includes('porpoise')) {
+    return { min: 100, max: 1000 };
+  }
+  //fossils
+  if (name.includes('megalodon') || 
+      name.includes('mosasaurus') || 
+      name.includes('plesiosaur') ||
+      name.includes('dunkleosteus') ||
+      name.includes('basilosaurus') ||
+      name.includes('liopleurodon')) {
+    return { min: 90000, max: 100000 };
+  }
+  
+  return { min: 1, max: 1000 };
 }
