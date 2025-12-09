@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 const https = require('https');
 import { savePokemonCatch } from '../services/pokemonService';
 // const
-const DLC_CATCH_RATE = 0.3;
+const DLC_CATCH_RATE = 0.4;
 // add ifaces
 interface WikiSearchResult {
   query?: {
@@ -1510,7 +1510,7 @@ module.exports = {
 	
 	try {
 	
-		const isPokemon = Math.random() < 0.002;
+		const isPokemon = Math.random() < 0.0025;
 		
 		if (isPokemon) {
 			const pokemonId = pokemonFishIds[Math.floor(Math.random() * pokemonFishIds.length)];
@@ -1546,7 +1546,7 @@ module.exports = {
 			const isDLC = Math.random() < DLC_CATCH_RATE;
 			const fishArray = isDLC ? dlcFishList : fishList;
 			const fish = fishArray[Math.floor(Math.random() * fishArray.length)];
-			const legallyEthically = isDLC ? "legally and ethically" : "";
+			const legallyEthically = isDLC ? " legally and ethically" : "";
 			
 			const searchData = await fetchWikipedia(
 				`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(fish)}&format=json`
@@ -1561,7 +1561,9 @@ module.exports = {
 				`https://en.wikipedia.org/w/api.php?action=query&pageids=${pageId}&prop=pageimages&piprop=original|thumbnail&pithumbsize=800&format=json`
 			) as WikiPageResult;
 			
-			const randomWeight = Math.floor(Math.random() * 1000) + 1;
+			const randomWeight = Math.random() < 0.01 
+				? (Math.random() * 0.9 + 0.1).toFixed(1) // 0.1 to 0.9
+				: Math.floor(Math.random() * 100000) + 1; // 1 to 100000
 			const page = pageData.query.pages[pageId];
 			const imageUrl = page.thumbnail?.source || page.original?.source;
 			
