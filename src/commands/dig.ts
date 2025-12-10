@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const https = require('https');
 import { savePokemonCatch } from '../services/pokemonService';
-const TREASURE_RATE = 0.01;
+const TREASURE_RATE = 0.025;
 
 interface WikiSearchResult {
   query?: {
@@ -204,21 +204,21 @@ module.exports = {
             
 			const isDavid= Math.random() < TREASURE_RATE;
 			if (isDavid && DAVID.length > 0) {
-			  const sculpture = DAVID[Math.floor(Math.random() * DAVID.length)];
-			  
-			  return interaction.editReply({
-				  content: `You dug up BrotherDavid's Clay Yokai Sculptures! The Night Parade of 100 Demons <:pog:1416513137536008272>`,
-				  files: [sculpture.imageUrl]
-			  });
+				const sculpture = DAVID[Math.floor(Math.random() * DAVID.length)];
+				
+				return interaction.editReply({
+					content: `You dug up BrotherDavid's Clay Yokai Sculptures! The Night Parade of 100 Demons <:pog:1416513137536008272>`,
+					files: [sculpture.imageUrl]
+				});
 			}
 			
 				const isTreasure = Math.random() < TREASURE_RATE;
 			if (isTreasure) {
-			  const treasure = treasureList[Math.floor(Math.random() * treasureList.length)];
-			
-			  return interaction.editReply(
-				  `You dug up ${treasure}. <:pog:1416513137536008272>`
-			  );
+				const treasure = treasureList[Math.floor(Math.random() * treasureList.length)];
+				const randomPrice = Math.floor(Math.random() * 100000) + 1;
+				return interaction.editReply(
+				  `You unearthed ${treasure}, it is valued at ${randomPrice}$! <:pog:1416513137536008272>`
+				);
 			}
 
 
