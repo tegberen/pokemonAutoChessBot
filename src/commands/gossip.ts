@@ -37,7 +37,8 @@ const names = [
 	"spanishcrow",
 	"katbor",
 	"esna",
-	"emi"
+	"emi",
+	"kingz
 ];
 
 const synergies = [
