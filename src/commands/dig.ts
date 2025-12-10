@@ -202,31 +202,31 @@ module.exports = {
 		} else {
 			// check treasure list
             
-      const isDavid= Math.random() < TREASURE_RATE;
-      if (isDavid && DAVID.length > 0) {
-          const sculpture = DAVID[Math.floor(Math.random() * DAVID.length)];
-          
-          return interaction.editReply({
-              content: `You dug up BrotherDavid's Clay Yokai Sculptures! The Night Parade of 100 Demons <:pog:1416513137536008272>`,
-              files: [sculpture.imageUrl]
-          });
-      }
+			const isDavid= Math.random() < TREASURE_RATE;
+			if (isDavid && DAVID.length > 0) {
+			  const sculpture = DAVID[Math.floor(Math.random() * DAVID.length)];
+			  
+			  return interaction.editReply({
+				  content: `You dug up BrotherDavid's Clay Yokai Sculptures! The Night Parade of 100 Demons <:pog:1416513137536008272>`,
+				  files: [sculpture.imageUrl]
+			  });
+			}
+			
+				const isTreasure = Math.random() < TREASURE_RATE;
+			if (isTreasure) {
+			  const treasure = treasureList[Math.floor(Math.random() * treasureList.length)];
+			
+			  return interaction.editReply(
+				  `You dug up ${treasure}. <:pog:1416513137536008272>`
+			  );
+			}
 
-			const isTreasure = Math.random() < TREASURE_RATE;
-      if (isTreasure) {
-          const treasure = treasureList[Math.floor(Math.random() * treasureList.length)];
 
-          return interaction.editReply(
-              `You dug up ${treasure}. <:pog:1416513137536008272>`
-          );
-      }
-
-
-      // check dino list and fetch wiki image code
+      		// check dino list and fetch wiki image code
 			const dino = dinoList[Math.floor(Math.random() * dinoList.length)];
 			
 			const searchData = await fetchWikipedia(
-				`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(fish)}&format=json`
+				`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(dino)}&format=json`
 			) as WikiSearchResult;
 			
 			if (!searchData.query?.search?.[0]) {
@@ -284,7 +284,7 @@ function fetchWikipedia(url) {
   return new Promise((resolve, reject) => {
     const options = {
       headers: {
-        'User-Agent': 'discord bot - fish command'
+        'User-Agent': 'discord bot - dig command'
       }
     };
     https.get(url, options, (res) => {
@@ -305,7 +305,7 @@ function fetchPokeAPI(url: string): Promise<unknown> {
   return new Promise((resolve, reject) => {
     const options = {
       headers: {
-        'User-Agent': 'discord bot - fish command'
+        'User-Agent': 'discord bot - dig command'
       }
     };
     https.get(url, options, (res) => {
