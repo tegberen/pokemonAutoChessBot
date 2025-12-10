@@ -205,7 +205,7 @@ module.exports = {
         const randomPrice = Math.floor(Math.random() * 100000) + 1;
         
         return interaction.editReply({
-          content: `You unearthed ${treasure.name}, it is valued at $${randomPrice}! <:pog:1416513137536008272>`,
+          content: `Wow a rare treasure!!! You unearthed ${treasure.name}, it is valued at $${randomPrice}! <:pog:1416513137536008272>`,
           files: [treasure.imageUrl]
         });
       }
