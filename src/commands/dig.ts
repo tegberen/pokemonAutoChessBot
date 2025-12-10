@@ -243,7 +243,7 @@ module.exports = {
 			const imageUrl = page.thumbnail?.source || page.original?.source;
             
 			if (!imageUrl) {
-				return interaction.editReply( `You unearthed a fossil and revived it into a ${dino}! It weighs ${randomWeight}`);
+				return interaction.editReply( `You unearthed a fossil and revived it into a ${dino}! It weighs ${randomWeight}kg`);
 			}
 
 			const fileSize = await getFileSize(imageUrl);
@@ -252,13 +252,13 @@ module.exports = {
 			if (fileSize > MAX_SIZE) {
 				console.log(`img error`);
 				return interaction.editReply({
-				content: `You unearthed a fossil and revived it into a ${dino}! It weighs ${randomWeight}`,
+				content: `You unearthed a fossil and revived it into a ${dino}! It weighs ${randomWeight}kg`,
 				});
 			}
 			
 
 			return interaction.editReply({
-				content:  `You unearthed a fossil and revived it into a ${dino}! It weighs ${randomWeight}`,
+				content:  `You unearthed a fossil and revived it into a ${dino}! It weighs ${randomWeight}kg`,
 				files: [imageUrl]
 			});
 		}
