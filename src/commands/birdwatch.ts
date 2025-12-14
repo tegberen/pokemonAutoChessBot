@@ -3748,14 +3748,14 @@ function getWeightRange(animalName: string): { min: number; max: number } {
       name.includes('chickadee') || 
       name.includes('wren') || 
       name.includes('gnatcatcher')) {
-    return { min: 0.002, max: 0.02 };
+    return { min: 0.01, max: 0.05 };
   }
 
   if (name.includes('owl') || 
       name.includes('nightjar') || 
       name.includes('potoo') || 
       name.includes('frogmouth')) {
-    return { min: 0.03, max: 4 };
+    return { min: 0.1, max: 4 };
   }
 
   if (name.includes('parrot') || 
@@ -3803,7 +3803,7 @@ function getWeightRange(animalName: string): { min: number; max: number } {
 
   if (name.includes('dove') || 
       name.includes('pigeon')) {
-    return { min: 0.03, max: 0.5 };
+    return { min: 0.1, max: 0.5 };
   }
 
   if (name.includes('swift') || 
@@ -3818,21 +3818,21 @@ function getWeightRange(animalName: string): { min: number; max: number } {
       name.includes('godwit') || 
       name.includes('curlew') || 
       name.includes('turnstone')) {
-    return { min: 0.02, max: 1 };
+    return { min: 0.1, max: 1 };
   }
 
   if (name.includes('flycatcher') || 
       name.includes('kingbird') || 
       name.includes('phoebe') || 
       name.includes('pewee')) {
-    return { min: 0.006, max: 0.05 };
+    return { min: 0.01, max: 0.05 };
   }
 
   if (name.includes('thrush') || 
       name.includes('robin') || 
       name.includes('bluebird') || 
       name.includes('solitaire')) {
-    return { min: 0.02, max: 0.15 };
+    return { min: 0.1, max: 0.15 };
   }
 
   if (name.includes('sparrow') || 
@@ -3847,7 +3847,7 @@ function getWeightRange(animalName: string): { min: number; max: number } {
       name.includes('goldfinch') || 
       name.includes('rosefinch') || 
       name.includes('grosbeak')) {
-    return { min: 0.01, max: 0.08 };
+    return { min: 0.1, max: 0.08 };
   }
 
   if (name.includes('tanager') || 
@@ -3870,11 +3870,11 @@ function getWeightRange(animalName: string): { min: number; max: number } {
 
   if (name.includes('vireo') || 
       name.includes('greenlet')) {
-    return { min: 0.01, max: 0.03 };
+    return { min: 0.1, max: 0.03 };
   }
 
   if (name.includes('kingfisher')) {
-    return { min: 0.01, max: 0.3 };
+    return { min: 0.1, max: 0.3 };
   }
 
   if (name.includes('trogon') || 
