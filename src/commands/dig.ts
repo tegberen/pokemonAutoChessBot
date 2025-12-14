@@ -1533,7 +1533,7 @@ const dinoList = [
 "Sibirosaurus",
 "Sibirotitan",
 "Sidersaura",
-""Sidormimus",
+"Sidormimus",
 "Sierraceratops",
 "Sigilmassasaurus",
 "Silesaurus",
