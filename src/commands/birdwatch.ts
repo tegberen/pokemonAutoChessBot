@@ -3635,7 +3635,7 @@ module.exports = {
 			const imageUrl = page.thumbnail?.source || page.original?.source;
 			
 			if (!imageUrl) {
-				return interaction.editReply(`You went birdwatching and saw a ${bird}, it weighs ${randomWeight}kg`);
+				return interaction.editReply(`You went birdwatching and saw a ${bird}, it weighs ${randomWeight}g`);
 			}
 
 			const fileSize = await getFileSize(imageUrl);
@@ -3644,12 +3644,12 @@ module.exports = {
 			if (fileSize > MAX_SIZE) {
 				console.log(`img error`);
 				return interaction.editReply({
-				content: `You went birdwatching and saw a ${bird}, it weighs ${randomWeight}kg`,
+				content: `You went birdwatching and saw a ${bird}, it weighs ${randomWeight}g`,
 				});
 			}
 			
 			return interaction.editReply({
-				content: `You went birdwatching and saw a ${bird}, it weighs ${randomWeight}kg`,
+				content: `You went birdwatching and saw a ${bird}, it weighs ${randomWeight}g`,
 				files: [imageUrl]
 			});
 		}
@@ -3716,13 +3716,12 @@ function fetchPokeAPI(url: string): Promise<unknown> {
 function getWeightRange(animalName: string): { min: number; max: number } {
   const name = animalName.toLowerCase();
 
-
   if (name.includes('eagle') || 
       name.includes('hawk') || 
       name.includes('vulture') || 
       name.includes('condor') || 
       name.includes('osprey')) {
-    return { min: 0.5, max: 10 };
+    return { min: 500, max: 10000 };
   }
 
   if (name.includes('albatross') || 
@@ -3731,7 +3730,7 @@ function getWeightRange(animalName: string): { min: number; max: number } {
       name.includes('goose') || 
       name.includes('crane') || 
       name.includes('stork')) {
-    return { min: 2, max: 15 };
+    return { min: 2000, max: 15000 };
   }
 
   if (name.includes('duck') || 
@@ -3739,7 +3738,7 @@ function getWeightRange(animalName: string): { min: number; max: number } {
       name.includes('merganser') || 
       name.includes('scoter') || 
       name.includes('eider')) {
-    return { min: 0.3, max: 3 };
+    return { min: 300, max: 3000 };
   }
 
   if (name.includes('hummingbird') || 
@@ -3748,14 +3747,14 @@ function getWeightRange(animalName: string): { min: number; max: number } {
       name.includes('chickadee') || 
       name.includes('wren') || 
       name.includes('gnatcatcher')) {
-    return { min: 0.01, max: 0.05 };
+    return { min: 10, max: 50 };
   }
 
   if (name.includes('owl') || 
       name.includes('nightjar') || 
       name.includes('potoo') || 
       name.includes('frogmouth')) {
-    return { min: 0.1, max: 4 };
+    return { min: 100, max: 4000 };
   }
 
   if (name.includes('parrot') || 
@@ -3763,13 +3762,13 @@ function getWeightRange(animalName: string): { min: number; max: number } {
       name.includes('cockatoo') || 
       name.includes('parakeet') || 
       name.includes('lovebird')) {
-    return { min: 0.03, max: 1.5 };
+    return { min: 30, max: 1500 };
   }
 
   if (name.includes('woodpecker') || 
       name.includes('flicker') || 
       name.includes('sapsucker')) {
-    return { min: 0.03, max: 0.3 };
+    return { min: 30, max: 300 };
   }
 
   if (name.includes('heron') || 
@@ -3777,7 +3776,7 @@ function getWeightRange(animalName: string): { min: number; max: number } {
       name.includes('bittern') || 
       name.includes('ibis') || 
       name.includes('spoonbill')) {
-    return { min: 0.1, max: 4 };
+    return { min: 100, max: 4000 };
   }
 
   if (name.includes('gull') || 
@@ -3785,11 +3784,11 @@ function getWeightRange(animalName: string): { min: number; max: number } {
       name.includes('skimmer') || 
       name.includes('jaeger') || 
       name.includes('skua')) {
-    return { min: 0.1, max: 2 };
+    return { min: 100, max: 2000 };
   }
 
   if (name.includes('penguin')) {
-    return { min: 1, max: 50 };
+    return { min: 1000, max: 50000 };
   }
 
   if (name.includes('grouse') || 
@@ -3798,18 +3797,18 @@ function getWeightRange(animalName: string): { min: number; max: number } {
       name.includes('partridge') || 
       name.includes('quail') || 
       name.includes('turkey')) {
-    return { min: 0.1, max: 10 };
+    return { min: 100, max: 10000 };
   }
 
   if (name.includes('dove') || 
       name.includes('pigeon')) {
-    return { min: 0.1, max: 0.5 };
+    return { min: 100, max: 500 };
   }
 
   if (name.includes('swift') || 
       name.includes('swallow') || 
       name.includes('martin')) {
-    return { min: 0.01, max: 0.06 };
+    return { min: 10, max: 60 };
   }
 
   if (name.includes('sandpiper') || 
@@ -3818,28 +3817,28 @@ function getWeightRange(animalName: string): { min: number; max: number } {
       name.includes('godwit') || 
       name.includes('curlew') || 
       name.includes('turnstone')) {
-    return { min: 0.1, max: 1 };
+    return { min: 100, max: 1000 };
   }
 
   if (name.includes('flycatcher') || 
       name.includes('kingbird') || 
       name.includes('phoebe') || 
       name.includes('pewee')) {
-    return { min: 0.01, max: 0.05 };
+    return { min: 10, max: 50 };
   }
 
   if (name.includes('thrush') || 
       name.includes('robin') || 
       name.includes('bluebird') || 
       name.includes('solitaire')) {
-    return { min: 0.1, max: 0.15 };
+    return { min: 100, max: 150 };
   }
 
   if (name.includes('sparrow') || 
       name.includes('bunting') || 
       name.includes('towhee') || 
       name.includes('junco')) {
-    return { min: 0.01, max: 0.05 };
+    return { min: 10, max: 50 };
   }
 
   if (name.includes('finch') || 
@@ -3847,49 +3846,49 @@ function getWeightRange(animalName: string): { min: number; max: number } {
       name.includes('goldfinch') || 
       name.includes('rosefinch') || 
       name.includes('grosbeak')) {
-    return { min: 0.1, max: 0.08 };
+    return { min: 100, max: 80 };
   }
 
   if (name.includes('tanager') || 
       name.includes('cardinal') || 
       name.includes('bunting')) {
-    return { min: 0.015, max: 0.06 };
+    return { min: 15, max: 60 };
   }
 
   if (name.includes('jay') || 
       name.includes('crow') || 
       name.includes('raven') || 
       name.includes('magpie')) {
-    return { min: 0.05, max: 1.5 };
+    return { min: 50, max: 1500 };
   }
 
   if (name.includes('starling') || 
       name.includes('myna')) {
-    return { min: 0.06, max: 0.15 };
+    return { min: 60, max: 150 };
   }
 
   if (name.includes('vireo') || 
       name.includes('greenlet')) {
-    return { min: 0.1, max: 0.03 };
+    return { min: 100, max: 30 };
   }
 
   if (name.includes('kingfisher')) {
-    return { min: 0.1, max: 0.3 };
+    return { min: 100, max: 300 };
   }
 
   if (name.includes('trogon') || 
       name.includes('quetzal')) {
-    return { min: 0.04, max: 0.2 };
+    return { min: 40, max: 200 };
   }
 
   if (name.includes('booby') || 
       name.includes('gannet')) {
-    return { min: 0.7, max: 3.5 };
+    return { min: 700, max: 3500 };
   }
 
   if (name.includes('cormorant') || 
       name.includes('shag')) {
-    return { min: 0.3, max: 5 };
+    return { min: 300, max: 5000 };
   }
 
   if (name.includes('rail') || 
@@ -3897,20 +3896,20 @@ function getWeightRange(animalName: string): { min: number; max: number } {
       name.includes('gallinule') || 
       name.includes('coot') || 
       name.includes('moorhen')) {
-    return { min: 0.02, max: 2 };
+    return { min: 20, max: 2000 };
   }
 
   if (name.includes('tinamou')) {
-    return { min: 0.04, max: 2 };
+    return { min: 40, max: 2000 };
   }
 
   if (name.includes('flamingo')) {
-    return { min: 2, max: 4 };
+    return { min: 2000, max: 4000 };
   }
 
   if (name.includes('grebe')) {
-    return { min: 0.1, max: 1.6 };
+    return { min: 100, max: 1600 };
   }
 
-  return { min: 1, max: 10 };
+  return { min: 1000, max: 10000 };
 }
