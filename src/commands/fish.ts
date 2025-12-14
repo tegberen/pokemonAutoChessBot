@@ -3,7 +3,7 @@ const https = require('https');
 import { savePokemonCatch } from '../services/pokemonService';
 // const
 const DLC_CATCH_RATE = 0.4;
-const TREASURE_RATE = 1.0;
+const TREASURE_RATE = 0.05;
 
 const URL = 'https://raw.githubusercontent.com/tegberen/pokemonAutoChessBot/main/src/assets/';
 
