@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 const https = require('https');
 import { savePokemonCatch } from '../services/pokemonService';
 const TREASURE_RATE = 0.025;
-const SHINY_RATE = 0.005;
+const URL = 'https://raw.githubusercontent.com/tegberen/pokemonAutoChessBot/main/src/assets/';
 
 interface WikiSearchResult {
   query?: {
@@ -1518,6 +1518,7 @@ const dinoList = [
 "Shingopana",
 "Shishugounykus",
 "Shixinggia",
+"Shri",
 "Shuangbaisaurus",
 "Shuangmiaosaurus",
 "Shunosaurus",
@@ -1532,7 +1533,7 @@ const dinoList = [
 "Sibirosaurus",
 "Sibirotitan",
 "Sidersaura",
-"Sidormimus",
+""Sidormimus",
 "Sierraceratops",
 "Sigilmassasaurus",
 "Silesaurus",
@@ -1931,84 +1932,67 @@ const pokemonFossilIds = [
 ];
 
 const treasureList = [
-    { name: "an Ancient Aztec Codex", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448331181270630493/image0.jpg?ex=693adf06&is=69398d86&hm=c8a022ebe94b9f634f5e00b7b91e7971c9765aa6b88d6a76f481a1707e7b032b&=&format=webp&width=1724&height=1106" },
-    { name: "a Box of Scooby-Snacks", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448218433765507218/images.png?ex=693a7605&is=69392485&hm=a3253e85092fee63db023fca87ea56c693d6d4011db2cd9b64074788d133fee4&=&format=webp&quality=lossless&width=270&height=270" },
-    { name: "a Pair of Lightning McQueen Crocs", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448218558982000770/m82893164559_3.png?ex=693a7623&is=693924a3&hm=56e5107fe8486048d45e0f7dec2481d66dc6e1eb60e8401b9cb66cf42725b955&=&format=webp&quality=lossless&width=696&height=696" },
-    { name: "a Wimpod Sitting Cutie", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448218697490501652/P9729_701E10607_01.png?ex=693a7644&is=693924c4&hm=c0e3139278a4283bd60499eecd06028547250b61871387c5a021ad56246c6d0d&=&format=webp&quality=lossless&width=1219&height=1219" },
-    { name: "Tort's Favorite Blanket Hoodie", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448231953454207036/image.png?ex=693a829c&is=6939311c&hm=2df069466076037f0e47c4ee857cd03f324637778f81c06153a58b2214cc514e&=&format=webp&quality=lossless&width=1052&height=1164" },
-    { name: "a Winning Scratch-Off Ticket", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448218820018700288/xe2j4ilw45x61.png?ex=693a7661&is=693924e1&hm=c8671f5df0eec5c6ed7f587e37e4ece2bda79fff4da8a12f5ab64c49f4865165&=&format=webp&quality=lossless&width=952&height=1693" },
-    { name: "a 2,000 Litre Barrel of Toxic Waste", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448218878235643997/Toxic-Waste-Barrel-Metal.png?ex=693a766f&is=693924ef&hm=dcbec0a163f3a63d434c9d3e3564763b2d9af72fc20b5286a4f3218ae2c4497e&=&format=webp&quality=lossless&width=1219&height=894" },
-    { name: "a Giant Diamond", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448219012013101056/perfect-diamond-isolated-on-shiny-background.png?ex=693a768f&is=6939250f&hm=b8b96816a7aa6b0b4ad98853d2d8c8d598c9faa350c03eca029717db5b54a78c&=&format=webp&quality=lossless&width=1200&height=1158" },
-    { name: "an Exp. Share", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448229322128228393/pokemon-exp-share-bst-180-53547845-50875628847429_314x.png?ex=693a8029&is=69392ea9&hm=f1a1913429e06ee345a107a30227eb7a519f71ef32d20a979eb287f26c4d9e70&=&format=webp&quality=lossless&width=377&height=524" },
-    { name: "a White Castle Crave Case", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448219121228451932/Crave-Case.png?ex=693a76a9&is=69392529&hm=c0dc7db9c98a0a9dde2b317b3af0df5fcb1edb44165aa8cda8c0c55a7c654862&=&format=webp&quality=lossless&width=1200&height=984" },
-    { name: "a Big Golden Nugget", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448219165663166547/golden-nugget-closeup-lump-conglomerate-as-big-half-fist-child-covered-all-over-mica-gives-impression-104602831.png?ex=693a76b3&is=69392533&hm=3b4b2f51d3431029c032b8b9eca84a01136ca3231e26320c2d2046194373e390&=&format=webp&quality=lossless&width=877&height=1080" },
-    { name: "a PSA 10 Charizard Card", imageUrl: "https://media.discordapp.net/attachments/1446438422125482004/1448201042918506557/s-l1200.png?ex=693a65d2&is=69391452&hm=330b643fc4012b27d2574d219b7d276d742128a78296e8a24cb9e6d2e7853ecd&=&format=webp&quality=lossless&width=643&height=1022" },
-    { name: "a Cool Rat Wearing a Tophat", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448219230641197107/bab5fcbcfd9d6daa2413bd4e135689af.png?ex=693a76c3&is=69392543&hm=8da2bdd7f2753ddbe71708bc5c3950b10fb4c5c16ec937ff2f89b962b33506fd&=&format=webp&quality=lossless&width=246&height=384" },
-    { name: "a Well-Used Toothbrush", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448219341610029127/105758450-badly-used-toothbrush-with-threads-of-plastic.png?ex=693a76dd&is=6939255d&hm=390681003658ace1e4bb6b76039798486b8219559f82b065182ae93044cf9a20&=&format=webp&quality=lossless&width=1219&height=810" },
-    { name: "a Half-Eaten Bag of Gummy Worms", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448219471759147108/DSC_7805.png?ex=693a76fc&is=6939257c&hm=2779bd83e77f1e35c31e0047e58ef835aabb9e1cabf6585b798aed8b0a428d2e&=&format=webp&quality=lossless&width=1219&height=1219" },
-    { name: "a Bag of Garbage", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448219514809614479/bag-garbage-placed-blue-surface-this-image-can-be-used-depict-waste-management-recycling-environmental-issues_153912-188211.png?ex=693a7706&is=69392586&hm=14638c912d548db58f4b253080efe1415a631ded867562b8bd6b6c1fe3f7335c&=&format=webp&quality=lossless&width=751&height=421" },
-    { name: "Sandshrew's Pokemon Card Collection", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448219632832872529/51UCG1euV3L.png?ex=693a7723&is=693925a3&hm=0242a4485e64dc771c450af12cba783cc099567ee9e89cbd0a355f9ff24751f3&=&format=webp&quality=lossless&width=860&height=1200" },
-    { name: "a Giant Stone Olmec Head", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448219673022693480/national-museum-of-anthropolog.png?ex=693a772c&is=693925ac&hm=9a2ded13a8aa5f24dc883a72d7038f376daa45ff9b6a5902362f007bec32e77f&=&format=webp&quality=lossless&width=325&height=325" },
-    { name: "a Chinese Statue Made of Bronze", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448219786008989808/s-l400.png?ex=693a7747&is=693925c7&hm=299880a320e4f095855ba7c5e52abe58868dcb3e4b5fba33af9c6e03134d5071&=&format=webp&quality=lossless&width=452&height=480" },
-    { name: "Kanga-Can", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448232218706051122/image.png?ex=693a82db&is=6939315b&hm=fd0443242a782dab6ddd835473bd218f77ee8c1ff3ff92d4b5ae65332c4b1206&=&format=webp&quality=lossless&width=226&height=214" },
-    { name: "a Nintendo Wii and Copy of Mario Kart", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448219879982239867/2539739_sa.png?ex=693a775e&is=693925de&hm=494d369ef28c2a075864f3e7fdba8c252e5355ba0acbd9cd1f3ef469eff18162&=&format=webp&quality=lossless&width=600&height=276" },
-    { name: "the Holy Grail", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448219941152231495/360.png?ex=693a776c&is=693925ec&hm=dbf9077649df347d52acb5b4987a69d0e05e9d48b3f077faf3886a41de779553&=&format=webp&quality=lossless&width=432&height=508" },
-    { name: "a Bacon, Egg, and Cheese Breakfast Sandwich", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448219993736216606/bacon-egg-cheese-recipe-snippet.png?ex=693a7779&is=693925f9&hm=7d2f6823bf2d9b62acfad788a5c0908fe6ea2fc293333dea98dfbef91c6cfda2&=&format=webp&quality=lossless&width=1219&height=1219" },
-    { name: "a Greek Statue Made of Marble", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448220238805078098/Discobolus_in_National_Roman_Museum_Palazzo_Massimo_alle_Terme.png?ex=693a77b3&is=69392633&hm=4eb894e2c560047c281d08e10aefc008ff26747d052fbbe0d48ff165036764f5&=&format=webp&quality=lossless&width=646&height=1080" },
-    { name: "a Really Cool Looking Stick", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448220283621343232/images.png?ex=693bc93e&is=693a77be&hm=47f328d3fb5fcca47bf245a02c06f264b1e403edbba7875886c7d26f79e15830&=&format=webp&quality=lossless&width=237&height=479" },
-    { name: "a Box of Honey Nut Cheerios", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448220357403082823/91i7HHz-BML.png?ex=693a77cf&is=6939264f&hm=6be2e386c3e24cf5291d20feb29530dad52745010daeebbfd0ac8be18f86bbd1&=&format=webp&quality=lossless&width=817&height=1200" },
-    { name: "a Wheel of Curry's Favourite Cheese", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448220431281815564/Cheese-wheel-sq-jpg.png?ex=693a77e1&is=69392661&hm=d5a449cfb2dc12d4d00edf936060a7654efb7e074d7e203688ca5757a6ff9bd3&=&format=webp&quality=lossless&width=660&height=660" },
-    { name: "a Copy of Zoboomafoo on VHS", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448220488634732705/51MAEV580TL.png?ex=693a77ef&is=6939266f&hm=065ac707a743449d2c2b558ce0b188e8e9c5a5c237cf5a1873a92712d3fe9cb3&=&format=webp&quality=lossless&width=682&height=1200" },
-    { name: "a Jar Filled With Strawberry Jam", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448220539155124264/Strawberry-Jam-gog-3.png?ex=693a77fb&is=6939267b&hm=9476bfd6d39a7ce5549323fab987b30ab8c86725f11eb2a32e649acfd5eb9d7e&=&format=webp&quality=lossless&width=720&height=720" },
-    { name: "an Unopened Can of Zero-Sugar Redbull", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448220709406117981/images.png?ex=693a7823&is=693926a3&hm=b2c4536300b1c70c606d25a185eeecd3bbd955e2f060f58e0b65e57c2b32833c&=&format=webp&quality=lossless&width=270&height=270" },
-    { name: "a USB Stick With Every BigWeff Video on it", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448220772865671229/cloud-video-sharing-thumb-drive.png?ex=693a7832&is=693926b2&hm=6c0dd02dba6be317f31b832216ddbba8b2b533502fbe928f08e2055abd2596e1&=&format=webp&quality=lossless&width=1219&height=637" },
-    { name: "a Cooking Pot Signed by Tegberen", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448230369945059458/image.png?ex=693a8123&is=69392fa3&hm=3efc9ba41b919db15ec5c3f393387522b8466bfac9a3b4b7459e14c29c148b6c&=&format=webp&quality=lossless&width=884&height=853" },
-    { name: "a Piano Signed by John Rei", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448230557132656781/CLP-845PE_f_0001_85af783930c268148d19b6aa5429114b.png?ex=693a814f&is=69392fcf&hm=f2befc07a285b27fc9f8f4dbea0c67f1353126d4a632e4ed05c3fdf880665de5&=&format=webp&quality=lossless&width=1219&height=1219" },
-    { name: "an Omnitrix", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448220831644909740/360.png?ex=693a7840&is=693926c0&hm=625ef3ca3eb5abd2f8e0d7cb4942c9c8e00e972a05a742111c5ca3081c1daaf2&=&format=webp&quality=lossless&width=432&height=594" },
-    { name: "a Large 3-Topping Pizza From Domino's", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448220927908118631/797ec466-81b8-4ea5-9159-7cc831954504.png?ex=693a7857&is=693926d7&hm=344364786f88d052ee19fefe79052a689ffb81f56997c75d74a92071cd55a924&=&format=webp&quality=lossless&width=1219&height=914" },
-    { name: "a Fire Gem", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448229253492768940/fire_gem_by_jormxdos_dhtxta1-414w.png?ex=693a8018&is=69392e98&hm=77348c167b147602028e4e0843050304063e71e84a9784bf22c36aa6c5dd85c6&=&format=webp&quality=lossless&width=497&height=497" },
-    { name: "a Hat Worn and Signed by Cinn", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448231694728560652/shopping.png?ex=693a825e&is=693930de&hm=1a3eb1fde6ce1959d690dc958b1ae46c153ca91098f06c338236645310db3fce&=&format=webp&quality=lossless&width=614&height=558" },
-    { name: "a Plastic Straw Used by Salamander", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448229036810702939/closeup-drinking-straw-white-background_476612-9387.png?ex=693a7fe5&is=69392e65&hm=97bb333dc8f526698469a57df67c33d6bf3f7403220d2dd3b618a8df4b83b389&=&format=webp&quality=lossless&width=500&height=751" },
-    { name: "a Collection of Kaploop's Cool Rocks", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448229468798980106/how-to-store-a-rock-collection-properly-1.png?ex=693a804c&is=69392ecc&hm=6298465a88c4eb5245afd8ce1058e4c7b6218d2f42d527b607e3ad6e158e064a&=&format=webp&quality=lossless&width=1128&height=946" },
-    { name: "an Arcle Signed by Evolto", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448229535102275730/4_5762_o_1grhs2ehvbud3f5qcp2b713ph4t.png?ex=693bd1db&is=693a805b&hm=0caab897d975e4e0e1ee9ebde52eb964fe8971de6e2f6d09164770a0f1898266&=&format=webp&quality=lossless&width=1799&height=1799" },
-    { name: "Mothmad's Frog Hat", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448231626336243732/81e1c48f-37df-42dd-bd93-caffe4558546.png?ex=693a824e&is=693930ce&hm=128263abbfe69b5e6211cf08f4e4a76e4dd9294e54193f8441c905e719d80229&=&format=webp&quality=lossless&width=1219&height=1219" },
-    { name: "a Copy of the Book of the Dead", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448221483997335552/The-Mummy-Book-of-the-Dead-Key-of-Hamunaptra-Replica-Imhotep-Prop-66.png?ex=693a78dc&is=6939275c&hm=575cc55d660ed884caa7398fbb146deb65bc1aa0c99ca71bf34a1dc5425d44d7&=&format=webp&quality=lossless&width=1219&height=914" },
-    { name: "the Sphinx of Hatshepsut", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448221408172707922/250px-Sphinx_Metropolitan.png?ex=693a78ca&is=6939274a&hm=64ae4db2b8e28d422fe720da82b791fcc4ee4adcb6e837b991f39007bf8e4961&=&format=webp&quality=lossless&width=300&height=226" },
-    { name: "A Statue of Lamassu", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448221364753268837/lamassu-winged-bull-statue-oldest-civilization-known-to-humanity-civilization-mesopotamia-iraq-image-located-67502870.png?ex=693a78c0&is=69392740&hm=37b14cf612cb4b2cbd0c83ca8bf9f1e14fe9d9dc081e396372cc9c7d83802d8e&=&format=webp&quality=lossless&width=720&height=1080" },
-    { name: "Nike (Winged Victory) of Samothrace", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448221298395316334/50194821828_e6a20de475_o.png?ex=693a78b0&is=69392730&hm=b4f012cc6785537f43b25b34ba6efd8fa007eac377ddc7589141b68101414af8&=&format=webp&quality=lossless&width=1219&height=686" },
-    { name: "Augustus of Prima Porta", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448221223027871805/primaporta-face.png?ex=693a789e&is=6939271e&hm=2ba7e5dbff23f21314eb7bcaf31b6d0f26815a0f4b034f2c97618a02b382bce9&=&format=webp&quality=lossless&width=1219&height=685" },
-    { name: "a Terracotta Krater", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448221109387264051/main-image.png?ex=693a7883&is=69392703&hm=99ba0ec47797190ab16fdc31a939b306007878ac65da8759db37e712ffa3f986&=&format=webp&quality=lossless&width=1219&height=1235" },
-    { name: "a Terracotta Lekythos", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448221029439897610/terracotta-lekythos-c-550-530-bc-terracotta-22444080.png?ex=693a7870&is=693926f0&hm=d2941fef4ab093db0382baa3cf3d0c95940dc1cae98bddfed8a3e0f4905dbda1&=&format=webp&quality=lossless&width=288&height=360" },
-    { name: "a Cycladic Figurine", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448217430873739326/3a7d8b3bd3a1a262f41dae34d5cdf611a6835b6d-718x1080.png?ex=693a7516&is=69392396&hm=bb823cb92429b80ff1402947fdbc78d2a7927ce882d06e179b93eb1d6c1585ce&=&format=webp&quality=lossless&width=1126&height=1693" },
-    { name: "the Alexander Mosaic", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448217320966197308/mosaic.png?ex=693a74fb&is=6939237b&hm=04ea1fe19cf83f697983a5f87c7c4e4809bc25e2d0f02d9bb917a6b90b74bd4d&=&format=webp&quality=lossless&width=1219&height=686" },
-    { name: "the Ishtar Gate", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448217214237806676/reconstruction-ruins-Ishtar-Gate-Babylon-Al-Hillah-Iraq.png?ex=693a74e2&is=69392362&hm=e9337742acb1af991822e3d99f64a78d41400d288834f61ecaa4c4ff269565ed&=&format=webp&quality=lossless&width=1219&height=802" },
-    { name: "The Standard of Ur", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448217108273168394/StandardOfUrPeace-1.png?ex=693a74c9&is=69392349&hm=c0873a264523a913eabcc4143745c793295e97b35c6f8a8264f9a64851d2fc19&=&format=webp&quality=lossless&width=1219&height=592" },
-    { name: "a Statue of Ganesha", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448216964882239591/Bass_ganesha_a76f2870-875a-4ca0-8122-85f9de051e53.png?ex=693a74a6&is=69392326&hm=84095f71e7e26585bda3c0f6aec530563217a0637d6721d5a803a8759f557ad2&=&format=webp&quality=lossless&width=1128&height=1128" },
-    { name: "a Statue of Vishnu Riding on Garuda", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448216861807218769/Vishnu_riding_Garuda_2819th_century2C_Bali29_from_the_British_Museum_collection2C_National_Museum_of_Singapore_-_20160214.png?ex=693a748e&is=6939230e&hm=97fd9fa1e6ee9ff0fad4b364f425b3d072aabe53af8689e9fa0fdbcc81f420a7&=&format=webp&quality=lossless&width=1219&height=1626" },
-    { name: "a Pterodactyl Dinosaur Chicken Nugget", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448216581929701487/nugget-dino6.png?ex=693c6e8b&is=693b1d0b&hm=686f240b0b6029a2f79636c7d014a7538c5b75e78b688d60ceada9bdc73b70e7&=&format=webp&quality=lossless&width=389&height=389" },
-    { name: "a T-Rex Dinosaur Chicken Nugget", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448216628369035274/nugget-dino1.png?ex=693a7456&is=693922d6&hm=308de355d63b259978b2c64032247d8462b22fc87a33f657a3839b0b60058a18&=&format=webp&quality=lossless&width=311&height=311" },
-    { name: "a Stegosaurus Dinosaur Chicken Nugget", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448216453529600041/nugget-dino3.png?ex=693a742d&is=693922ad&hm=c3f4fba764f5285554f8b1b743c2d132d1d065235bc989bfff0e8f7fdcff12a1&=&format=webp&quality=lossless&width=311&height=311" },
-    { name: "a Brontosaurus Dinosaur Chicken Nugget", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448216541655994469/nugget-dino5.png?ex=693a7442&is=693922c2&hm=ac7f3b6aa840a247865f423209b96a15a2c36df787d0a8839ae38e18309748a4&=&format=webp&quality=lossless&width=311&height=311" },
-    { name: "a Triceratops Dinosaur Chicken Nugget", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448215844776579072/nugget-dino4.png?ex=693a739b&is=6939221b&hm=06ba772d6f522b3294c1194049a94dc60d69d2e1875675cf6906ee7126bd75c6&=&format=webp&quality=lossless&width=311&height=311" },
-    { name: "a chess set signed by T. Wang", imageUrl: "https://media.discordapp.net/attachments/1448215422242525245/1448228749173592157/152gs_280awxl_bundle_italfama_marble_1.png?ex=693a7fa0&is=69392e20&hm=beb3be53dbcf28970c91ecfd48f8df93f4fddc1cfc0252d7251b9fcdc9396ab5&=&format=webp&quality=lossless&width=840&height=840"},
-
-    {
-    name: "BrotherDavid's Clay Yokai Scupltures",
-    imageUrl: "https://media.discordapp.net/attachments/1446438422125482004/1448174225218207764/image.png?ex=693a4cd9&is=6938fb59&hm=d13b991600bbdf8393dce2079cdab602d89928287d38c934e8c951ff077bc08a&=&format=webp&quality=lossless&width=1859&height=841", // Replace with actual URL
-    },
-    {
-    name: "BrotherDavid's Clay Yokai Scupltures",
-    imageUrl: "https://media.discordapp.net/attachments/1446438422125482004/1448176466490822779/image.png?ex=693a4eef&is=6938fd6f&hm=29455351a41a27feb12372fc356474ddbff294efe2c0e96ea8cd50d9b068c6d0&=&format=webp&quality=lossless&width=1859&height=535",
-
-    },
-    {
-    name: "BrotherDavid's Clay Yokai Scupltures",
-    imageUrl: "https://media.discordapp.net/attachments/1446438422125482004/1448176497805492385/IMG_9802.png?ex=693a4ef6&is=6938fd76&hm=639ae2e3881c54d2bd63e054e1c4780828633e0292bd255b99da9fdde8e865dc&=&format=webp&quality=lossless&width=1435&height=1693"
-    },
-    {
-    name: "BrotherDavid's Clay Yokai Scupltures",
-    imageUrl: "https://media.discordapp.net/attachments/1446438422125482004/1448176620686016763/image.png?ex=693a4f14&is=6938fd94&hm=b9475258a7bb0452b4e68dd97b8276a77839dbb32a31f0e84a9fdc4f7cf14fe2&=&format=webp&quality=lossless&width=469&height=420"
-    }
+  { name: "an Ancient Aztec Codex", imageUrl: `${URL}aztec_code.webp` },
+  { name: "a Box of Scooby-Snacks", imageUrl: `${URL}scooby_snack.webp` },
+  { name: "a Pair of Lightning McQueen Crocs", imageUrl: `${URL}mcqueen_shoes.webp` },
+  { name: "a Wimpod Sitting Cutie", imageUrl: `${URL}wimpod.webp` },
+  { name: "Tort's Favorite Blanket Hoodie", imageUrl: `${URL}torthood.webp` },
+  { name: "a Winning Scratch-Off Ticket", imageUrl: `${URL}lottery.webp` },
+  { name: "a 2,000 Litre Barrel of Toxic Waste", imageUrl: `${URL}toxic_waste.webp` },
+  { name: "a Giant Diamond", imageUrl: `${URL}diamond.webp` },
+  { name: "an Exp. Share", imageUrl: `${URL}exp_share.webp` },
+  { name: "a White Castle Crave Case", imageUrl: `${URL}crave_case.webp` },
+  { name: "a Big Golden Nugget", imageUrl: `${URL}goldnugget.webp` },
+  { name: "a PSA 10 Charizard Card", imageUrl: `${URL}sandshrew_card.webp` },
+  { name: "a Cool Rat Wearing a Tophat", imageUrl: `${URL}mouse.webp` },
+  { name: "a Well-Used Toothbrush", imageUrl: `${URL}toothbrush.webp` },
+  { name: "a Half-Eaten Bag of Gummy Worms", imageUrl: `${URL}gummies.webp` },
+  { name: "a Bag of Garbage", imageUrl: `${URL}trashbag.webp` },
+  { name: "Sandshrew's Pokemon Card Collection", imageUrl: `${URL}sandshrew_card.webp` },
+  { name: "a Giant Stone Olmec Head", imageUrl: `${URL}olmec.webp` },
+  { name: "a Chinese Statue Made of Bronze", imageUrl: `${URL}chinese_statue.webp` },
+  { name: "Kanga-Can", imageUrl: `${URL}kanga_can.webp` },
+  { name: "a Nintendo Wii and Copy of Mario Kart", imageUrl: `${URL}wii.webp` },
+  { name: "the Holy Grail", imageUrl: `${URL}holy_grail.webp` },
+  { name: "a Bacon, Egg, and Cheese Breakfast Sandwich", imageUrl: `${URL}bacon_cheese.webp` },
+  { name: "a Greek Statue Made of Marble", imageUrl: `${URL}greek_statue.webp` },
+  { name: "a Really Cool Looking Stick", imageUrl: `${URL}cheerios.webp` },
+  { name: "a Box of Honey Nut Cheerios", imageUrl: `${URL}cheerios.webp` },
+  { name: "a Wheel of Curry's Favourite Cheese", imageUrl: `${URL}cheese.webp` },
+  { name: "a Copy of Zoboomafoo on VHS", imageUrl: `${URL}zoboomafoo.webp` },
+  { name: "a Jar Filled With Strawberry Jam", imageUrl: `${URL}jam.webp` },
+  { name: "an Unopened Can of Zero-Sugar Redbull", imageUrl: `${URL}redbull.webp` },
+  { name: "a USB Stick With Every BigWeff Video on it", imageUrl: `${URL}usb.webp` },
+  { name: "a Cooking Pot Signed by Tegberen", imageUrl: `${URL}cookingpot.webp` },
+  { name: "a Piano Signed by John Rei", imageUrl: `${URL}johnrei.webp` },
+  { name: "an Omnitrix", imageUrl: `${URL}omnitrix.webp` },
+  { name: "a Large 3-Topping Pizza From Domino's", imageUrl: `${URL}pizza.webp` },
+  { name: "a Fire Gem", imageUrl: `${URL}firegem.webp` },
+  { name: "a Hat Worn and Signed by Cinn", imageUrl: `${URL}cinn.webp` },
+  { name: "a Plastic Straw Used by Salamander", imageUrl: `${URL}drinking_straw.webp` },
+  { name: "a Collection of Kaploop's Cool Rocks", imageUrl: `${URL}rock_collection.webp` },
+  { name: "an Arcle Signed by Evolto", imageUrl: `${URL}evolto.webp` },
+  { name: "Mothmad's Frog Hat", imageUrl: `${URL}frog_hat.webp` },
+  { name: "a Copy of the Book of the Dead", imageUrl: `${URL}book_dead.webp` },
+  { name: "the Sphinx of Hatshepsut", imageUrl: `${URL}sphinx.webp` },
+  { name: "A Statue of Lamassu", imageUrl: `${URL}lamassu.webp` },
+  { name: "Nike (Winged Victory) of Samothrace", imageUrl: `${URL}nike.webp` },
+  { name: "Augustus of Prima Porta", imageUrl: `${URL}augustus.webp` },
+  { name: "a Terracotta Krater", imageUrl: `${URL}main-image.webp` },
+  { name: "a Terracotta Lekythos", imageUrl: `${URL}terracotta_lekythos.webp` },
+  { name: "a Cycladic Figurine", imageUrl: `${URL}cycladic_figure.webp` },
+  { name: "the Alexander Mosaic", imageUrl: `${URL}mosaic.webp` },
+  { name: "the Ishtar Gate", imageUrl: `${URL}ishtar.webp` },
+  { name: "The Standard of Ur", imageUrl: `${URL}standard_of_ur.webp` },
+  { name: "a Statue of Ganesha", imageUrl: `${URL}ganesha.webp` },
+  { name: "a Statue of Vishnu Riding on Garuda", imageUrl: `${URL}vishnu.webp` },
+  { name: "a Pterodactyl Dinosaur Chicken Nugget", imageUrl: `${URL}pterodactyl_nugget.webp` },
+  { name: "a T-Rex Dinosaur Chicken Nugget", imageUrl: `${URL}trex_nugget.webp` },
+  { name: "a Stegosaurus Dinosaur Chicken Nugget", imageUrl: `${URL}stegosaurus_nugget.webp` },
+  { name: "a Brontosaurus Dinosaur Chicken Nugget", imageUrl: `${URL}bronot_nugget.webp` },
+  { name: "a Triceratops Dinosaur Chicken Nugget", imageUrl: `${URL}triceraptos_nugget.webp` },
+  { name: "a chess set signed by T. Wang", imageUrl: `${URL}chessset.webp` },
+  { name: "BrotherDavid's Clay Yokai Scupltures", imageUrl: `${URL}yokai.webp`}
 ];
 
 module.exports = {
@@ -2021,7 +2005,7 @@ module.exports = {
 	
 	try {
 	
-		const isPokemon = Math.random() < SHINY_RATE;
+		const isPokemon = Math.random() < 0.005;
 		
 		if (isPokemon) {
 			const pokemonId = pokemonFossilIds[Math.floor(Math.random() * pokemonFossilIds.length)];
