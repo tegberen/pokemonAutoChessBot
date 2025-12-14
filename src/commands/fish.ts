@@ -5,7 +5,7 @@ import { savePokemonCatch } from '../services/pokemonService';
 const DLC_CATCH_RATE = 0.4;
 const TREASURE_RATE = 1.0;
 
-const URL = 'https://raw.githubusercontent.com/tegberen/pokemonAutoChessBot/src/assets/';
+const URL = 'https://raw.githubusercontent.com/tegberen/pokemonAutoChessBot/main/src/assets/';
 
 // add ifaces
 interface WikiSearchResult {
