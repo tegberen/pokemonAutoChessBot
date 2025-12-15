@@ -2,7 +2,11 @@ import { SlashCommandBuilder } from "discord.js";
 
 export const data = new SlashCommandBuilder()
 	.setName("gossip")
-	.setDescription("so true");
+	.setDescription("so true")
+	.addStringOption(option =>
+		option.setName("name")
+			.setDescription("Gossip about a specific person")
+			.setRequired(false));
 
 const names = [
 	"torterrable",
@@ -49,7 +53,6 @@ const synergies = [
   "artificial", "light", "wild", "baby", "amorphous"
 ];
 
-
 const items = [
   "Reapers Cloth", "Ability Shield", "Nomicon", "Powerlens", "Heavy Duty Boots", 
   "Souldew", "Stones", "X-Ray", "Razor Fang", "Gracidae", "Punching Gloves", 
@@ -59,7 +62,6 @@ const items = [
   "Rocky Helmet", "AV", "Shiny Charm", "Shell Bell", "Protective Pads", "King's Rock", 
   "Aqua Egg"
 ];
-
 
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
@@ -73,7 +75,8 @@ const pickTwo = (arr) => {
 };
 
 export async function execute(interaction) {
-	const randomName = pick(names);
+	const nameOption = interaction.options.getString("name");
+	const randomName = nameOption || pick(names);
 	const [randomSynergy1, randomSynergy2] = pickTwo(synergies);
 	const [randomItem1, randomItem2] = pickTwo(items);
 	
@@ -155,10 +158,8 @@ export async function execute(interaction) {
 		`I would never ban ${randomName} for playing ${randomSynergy1} <:snorlaxsideeye:1429987764924846160>`,
 		`Stop it. <:youwhat:1416513101607600279>`,
 		`<:BoomPants:1443728658262130800>`
-		
-	
 	];
-	const randomVariation =
-		variations[Math.floor(Math.random() * variations.length)];
+	
+	const randomVariation = pick(variations);
 	await interaction.reply(randomVariation);
 }
