@@ -3,6 +3,22 @@ const https = require('https');
 import { savePokemonCatch } from '../services/pokemonService';
 // const
 const SHINY_RATE = 0.005;
+const SUPERMAN_RATE = 0.01;
+const SUPERMAN_QUOTES = [
+"The man who moves a mountain begins by carrying away small stones",
+"You just can't beat the person who never gives up.",
+"If you think you can do a thing or think you can't do a thing, you're right.",
+"We may encounter many defeats but we must not be defeated.",
+"Don't wait to strike till the iron is hot; but make it hot by striking.",
+"Keep your face always toward the sunshine, and shadows will fall behind you.",
+"Life is 10% what happens to you and 90% how you react to it.",
+"All our dreams can come true, if we have the courage to pursue them.",
+"It is never too late to be what you might have been.",
+"Just don't give up.",
+"Do what you can, with what you have, where you are.",
+"Be the change you wish to see in the world." 
+];
+const SUPERMAN_IMAGE = "https://raw.githubusercontent.com/tegberen/pokemonAutoChessBot/main/src/assets/superman.webp";
 // add ifaces
 interface WikiSearchResult {
   query?: {
@@ -3578,6 +3594,15 @@ module.exports = {
 	await interaction.deferReply();
 	
 	try {
+		const isSuperman = Math.random() < SUPERMAN_RATE;
+		if (isSuperman) {
+			const randomQuote = SUPERMAN_QUOTES[Math.floor(Math.random() * SUPERMAN_QUOTES.length)];
+			
+			return interaction.editReply({
+				content: `${randomQuote}`,
+				files: [SUPERMAN_IMAGE]
+			});
+		}
 	
 		const isPokemon = Math.random() < SHINY_RATE;
 		
