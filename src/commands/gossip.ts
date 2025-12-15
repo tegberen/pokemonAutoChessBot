@@ -76,7 +76,7 @@ const pickTwo = (arr) => {
 
 export async function execute(interaction) {
 	const nameOption = interaction.options.getString("name");
-	const randomName = nameOption || pick(names);
+	const randomName = nameOption ? nameOption : pick(names);
 	const [randomSynergy1, randomSynergy2] = pickTwo(synergies);
 	const [randomItem1, randomItem2] = pickTwo(items);
 	
