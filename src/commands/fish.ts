@@ -4,7 +4,8 @@ import { savePokemonCatch } from '../services/pokemonService';
 import { 
      fishList,
 	 dlcFishList,
-     pokemonFishIds, 
+     pokemonFishIds,
+	 fishTreasures,
      SHINY_RATE,
 	 TREASURE_RATE,
 	 DLC_CATCH_RATE
