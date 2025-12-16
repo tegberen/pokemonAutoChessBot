@@ -4,7 +4,7 @@ import { savePokemonCatch } from '../services/pokemonService';
 import {
 	 birdList,
 	
-     pokemonList, 
+     birdPokemon, 
      SHINY_RATE,
 	
 	 SUPERMAN_RATE,
@@ -68,7 +68,7 @@ module.exports = {
 		const isPokemon = Math.random() < SHINY_RATE;
 		
 		if (isPokemon) {
-			const pokemonId = pokemonList[Math.floor(Math.random() * pokemonList.length)];
+			const pokemonId = birdPokemon[Math.floor(Math.random() * birdPokemon.length)];
 			const randomWeight = Math.floor(Math.random() * 1000) + 1;
 			
 			const pokeData = await fetchPokeAPI(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`) as PokeAPIResponse;
