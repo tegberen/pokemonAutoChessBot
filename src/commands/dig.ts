@@ -3,7 +3,7 @@ const https = require('https');
 import { savePokemonCatch } from '../services/pokemonService';
 import { 
      dinoList,
-	 pokemonFossilIds,
+	 fossilPokemon,
 	 treasureList,
      SHINY_RATE,
 	 TREASURE_RATE
@@ -61,7 +61,7 @@ module.exports = {
 		const isPokemon = Math.random() < 0.005;
 		
 		if (isPokemon) {
-			const pokemonId = pokemonFossilIds[Math.floor(Math.random() * pokemonFossilIds.length)];
+			const pokemonId = fossilPokemon[Math.floor(Math.random() * fossilPokemon.length)];
 			const randomWeight = Math.floor(Math.random() * 1000) + 1;
 			const pokeData = await fetchPokeAPI(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`) as PokeAPIResponse;
 			const imageUrl = pokeData.sprites.other['official-artwork'].front_shiny;
