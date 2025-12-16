@@ -4,7 +4,7 @@ import { savePokemonCatch } from '../services/pokemonService';
 import { 
      dinoList,
 	 fossilPokemon,
-	 treasureList,
+	 digTreasures,
      SHINY_RATE,
 	 TREASURE_RATE
    } from '../data/animals';
@@ -95,7 +95,7 @@ module.exports = {
 
 			const isTreasure = Math.random() < TREASURE_RATE;
       if (isTreasure) {
-        const treasure = treasureList[Math.floor(Math.random() * treasureList.length)];
+        const treasure = digTreasures[Math.floor(Math.random() * digTreasures.length)];
         const randomPrice = Math.floor(Math.random() * 100000) + 1;
         
         return interaction.editReply({
