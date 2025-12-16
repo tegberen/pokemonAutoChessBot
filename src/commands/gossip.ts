@@ -81,6 +81,7 @@ export async function execute(interaction) {
 	const [randomItem1, randomItem2] = pickTwo(items);
 	
 	const variations = [
+		`Go listen to:  https://www.youtube.com/watch?v=3LY2g4skDQM&list=RD3LY2g4skDQM&start_radio=1 NOW <:sandshrew4prez:1449853290207645716>`
 		`${randomName} should go live`,
 		`Unfortunately ${randomName} got widegrabbed`,
 		`You should ask ${randomName} to stop elo sitting`,
