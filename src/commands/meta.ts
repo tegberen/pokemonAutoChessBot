@@ -36,7 +36,10 @@ export async function execute(interaction) {
 		`${randomType1}-${randomType2} will deliver strong results in this current meta`,
 		`${randomType1}-${randomType2} performs exceptionally well in this current meta`,
 		`${randomType1}-${randomType2} means victory in this current meta`,
-		`${randomType1}-${randomType2} offers remarkably good placements in this current meta`
+		`${randomType1}-${randomType2} offers remarkably good placements in this current meta`,
+		`${randomType1} is overrated`,
+		`${randomType1} is underrated`,
+		`Can we rework ${randomType1} please`,
 
 	];
 	const randomVariation =
