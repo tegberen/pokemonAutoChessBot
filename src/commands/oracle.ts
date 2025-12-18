@@ -28,7 +28,7 @@ export async function execute(interaction: ChatInputCommandInteraction ) {
   ];
   
   const list = simple ? simpleAnswers : answers;
-  const answer = list[Math.floor(Math.random() * answers.length)];
+  const answer = list[Math.floor(Math.random() * list.length)];
   
   await interaction.reply(answer);
 }
