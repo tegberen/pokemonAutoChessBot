@@ -97,7 +97,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     
     const message = await interaction.fetchReply();
     
-    if (channel.isSendable()) {
+    if (channel?.isTextBased()) {
       const fetchedMessage = await channel.messages.fetch(message.id);
       await fetchedMessage.react('1️⃣');
       await fetchedMessage.react('2️⃣');
