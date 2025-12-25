@@ -68,25 +68,48 @@ export const data = new SlashCommandBuilder()
   .setDescription('me olmec, you vote');
 
 export async function execute(interaction: ChatInputCommandInteraction) {
-  const pair = getRandomPokemonPair();
-  
-  if (!pair) {
-    await interaction.reply({
-      content: 'Could not find a valid Pokemon pair!',
-      ephemeral: true
-    });
-    return;
+  try {
+    const pair = getRandomPokemonPair();
+    
+    if (!pair) {
+      await interaction.reply({
+        content: 'Could not find a valid Pokemon pair!',
+        ephemeral: true
+      });
+      return;
+    }
+    
+    const randomContext = getRandomContext();
+    
+    const pokemon1Name = formatPokemonName(pair.pokemon1);
+    const pokemon2Name = formatPokemonName(pair.pokemon2);
+    
+    const question = `${pokemon1Name} or ${pokemon2Name} ${randomContext}`;
+    
+    await interaction.reply(question);
+    
+    // use channel ?
+    const channel = interaction.channel;
+    if (!channel) {
+      console.error('Channel not found');
+      return;
+    }
+    
+    const message = await interaction.fetchReply();
+    
+    if (channel.isSendable()) {
+      const fetchedMessage = await channel.messages.fetch(message.id);
+      await fetchedMessage.react('1️⃣');
+      await fetchedMessage.react('2️⃣');
+    }
+  } catch (error) {
+    console.error('Error in vote command:', error);
+    
+    if (!interaction.replied && !interaction.deferred) {
+      await interaction.reply({
+        content: 'An error occurred while creating the poll!',
+        ephemeral: true
+      }).catch(console.error);
+    }
   }
-  
-  const randomContext = getRandomContext();
-  
-  const pokemon1Name = formatPokemonName(pair.pokemon1);
-  const pokemon2Name = formatPokemonName(pair.pokemon2);
-  
-  const question = `${pokemon1Name} or ${pokemon2Name} ${randomContext}`;
-  
-  await interaction.reply(question);
-  const message = await interaction.fetchReply();
-  await message.react('1️⃣');
-  await message.react('2️⃣');
 }
