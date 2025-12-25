@@ -8,7 +8,11 @@ import http from 'http';
 dotenv.config();
 
 const client = new Client({
-	intents: [GatewayIntentBits.Guilds],
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+    	GatewayIntentBits.GuildMessageReactions,
+	],
 }) as ClientWithCommands;
 
 if (process.env.MONGO_URI) {
