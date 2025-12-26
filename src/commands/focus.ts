@@ -18,6 +18,11 @@ module.exports = {
     )
     .addSubcommand(subcommand =>
       subcommand
+        .setName('end')
+        .setDescription('End your time-out session early')
+    )
+    .addSubcommand(subcommand =>
+      subcommand
         .setName('status')
         .setDescription('Shows remaining minutes of the time-out.')
     )
@@ -36,6 +41,10 @@ module.exports = {
 
     if (subcommand === 'start') {
       return handleStart(interaction);
+    }
+
+    if (subcommand === 'end') {
+      return handleEnd(interaction);
     }
 
     if (subcommand === 'stats') {
@@ -145,6 +154,68 @@ async function handleStart(interaction: CommandInteraction) {
     console.error('Error starting focus session:', error);
     return interaction.reply({ 
       content: 'Failed to start focus session.', 
+      ephemeral: true 
+    });
+  }
+}
+
+async function handleEnd(interaction: CommandInteraction) {
+  if (!interaction.guild || !interaction.member) {
+    return interaction.reply({ 
+      content: 'This command can only be used in a server.', 
+      ephemeral: true 
+    });
+  }
+
+  const member = interaction.member as GuildMember;
+  const userId = interaction.user.id;
+  const guildId = interaction.guild.id;
+  const sessionKey = `${guildId}-${userId}`;
+
+  const session = activeFocusSessions.get(sessionKey);
+
+  if (!session) {
+    return interaction.reply({ 
+      content: 'No active focus session to end.', 
+      ephemeral: true 
+    });
+  }
+
+  const timeoutRole = interaction.guild.roles.cache.find(
+    role => role.name === 'Focus Mode'
+  );
+
+  if (!timeoutRole) {
+    return interaction.reply({ 
+      content: 'The Focus Mode role is not set up. Contact an administrator.', 
+      ephemeral: true 
+    });
+  }
+
+  try {
+    clearTimeout(session.timeout);
+    await member.roles.remove(timeoutRole);
+
+    // Calculate actual time focused
+    const elapsed = Date.now() - session.startTime;
+    const minutesFocused = Math.floor(elapsed / 60000);
+
+    // Save the partial session
+    const { saveFocusSession } = require('../services/focusService');
+    await saveFocusSession(userId, minutesFocused);
+
+    // Remove from active sessions
+    activeFocusSessions.delete(sessionKey);
+
+    return interaction.reply({ 
+      content: `Focus session ended. You focused for ${minutesFocused} minutes.`,
+      ephemeral: false 
+    });
+
+  } catch (error) {
+    console.error('Error ending focus session:', error);
+    return interaction.reply({ 
+      content: 'Failed to end focus session.', 
       ephemeral: true 
     });
   }

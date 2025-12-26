@@ -4,6 +4,7 @@ import Mongoose from "mongoose";
 import fs from "node:fs";
 import path from "node:path";
 import http from 'http';
+import { cleanupFocusModeSessions } from './utils/focusCleanup';
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ const client = new Client({
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMessages,
     	GatewayIntentBits.GuildMessageReactions,
+		GatewayIntentBits.GuildMembers,
 	],
 }) as ClientWithCommands;
 
@@ -40,8 +42,9 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }
 
-client.once(Events.ClientReady, () => {
+client.once(Events.ClientReady, async () => {
 	console.log("Ready!");
+	await cleanupFocusModeSessions(client);
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
