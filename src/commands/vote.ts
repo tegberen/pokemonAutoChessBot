@@ -100,8 +100,8 @@ export async function execute(interaction: ChatInputCommandInteraction) {
       fetchReply: true,
     });
     if (message) {
-      await message.react('1️⃣');
-      await message.react('2️⃣');
+      await message.react(':one:');
+      await message.react(':two:');
     }
 
   } catch (error) {
