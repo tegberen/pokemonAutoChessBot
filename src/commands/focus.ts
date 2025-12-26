@@ -14,31 +14,31 @@ module.exports = {
     .addSubcommand(subcommand =>
       subcommand
         .setName('start')
-        .setDescription('Start a 90 minute focus session')
+        .setDescription('Time yourself out from all channels for 90min!')
     )
     .addSubcommand(subcommand =>
       subcommand
-        .setName('check')
-        .setDescription('Check your current focus session status')
+        .setName('status')
+        .setDescription('Shows remaining minutes of the time-out.')
     )
     .addSubcommand(subcommand =>
       subcommand
-        .setName('activity')
-        .setDescription('View your focus activity statistics')
+        .setName('stats')
+        .setDescription('View your focus statistics')
     ),
   
   async execute(interaction: CommandInteraction) {
     const subcommand = interaction.options.data[0]?.name;
 
-    if (subcommand === 'status') {
+    if (subcommand === 'start') {
       return handleStatus(interaction);
     }
 
-    if (subcommand === 'check') {
+    if (subcommand === 'status') {
       return handleStart(interaction);
     }
 
-    if (subcommand === 'activity') {
+    if (subcommand === 'stats') {
       return handleStats(interaction);
     }
   }
@@ -134,7 +134,7 @@ async function handleStart(interaction: CommandInteraction) {
         
         activeFocusSessions.delete(sessionKey);
       }
-    }, 1 * 60 * 1000);
+    }, 90 * 60 * 1000);
 
     activeFocusSessions.set(sessionKey, { 
       timeout, 
