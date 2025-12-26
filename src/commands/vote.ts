@@ -95,12 +95,16 @@ export async function execute(interaction: ChatInputCommandInteraction) {
       return;
     }
     
-    const message = await interaction.fetchReply();
-    
-    if (channel?.isTextBased()) {
-      const fetchedMessage = await channel.messages.fetch(message.id);
-      await fetchedMessage.react('1️⃣');
-      await fetchedMessage.react('2️⃣');
+    const message = await interaction.followUp({
+      content: question,
+      ephemeral: false,
+      fetchReply: true
+    });
+
+    // React to the message
+    if (message?.react) {
+      await message.react('1️⃣');
+      await message.react('2️⃣');
     }
   } catch (error) {
     console.error('Error in vote command:', error);
