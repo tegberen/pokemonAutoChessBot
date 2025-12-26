@@ -30,11 +30,11 @@ module.exports = {
   async execute(interaction: CommandInteraction) {
     const subcommand = interaction.options.data[0]?.name;
 
-    if (subcommand === 'start') {
+    if (subcommand === 'status') {
       return handleStatus(interaction);
     }
 
-    if (subcommand === 'status') {
+    if (subcommand === 'start') {
       return handleStart(interaction);
     }
 
