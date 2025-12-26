@@ -88,21 +88,9 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     
     await interaction.reply(question);
     
-    // use channel ?
-    const channel = interaction.channel;
-    if (!channel) {
-      console.error('Channel not found');
-      return;
-    }
-    
-    const message = await interaction.reply({
-      content: question,
-      fetchReply: true,
-    });
-    if (message) {
-      await message.react(':one:');
-      await message.react(':two:');
-    }
+    const message = await interaction.fetchReply();
+    await message.react('1️⃣');
+    await message.react('2️⃣');
 
   } catch (error) {
     console.error('Error in vote command:', error);
