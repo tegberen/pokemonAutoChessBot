@@ -18,13 +18,13 @@ module.exports = {
     )
     .addSubcommand(subcommand =>
       subcommand
-        .setName('status')
+        .setName('check')
         .setDescription('Check your current focus session status')
     )
     .addSubcommand(subcommand =>
       subcommand
-        .setName('stats')
-        .setDescription('View your focus statistics')
+        .setName('activity')
+        .setDescription('View your focus activity statistics')
     ),
   
   async execute(interaction: CommandInteraction) {
@@ -34,11 +34,11 @@ module.exports = {
       return handleStatus(interaction);
     }
 
-    if (subcommand === 'start') {
+    if (subcommand === 'check') {
       return handleStart(interaction);
     }
 
-    if (subcommand === 'stats') {
+    if (subcommand === 'activity') {
       return handleStats(interaction);
     }
   }
@@ -134,7 +134,7 @@ async function handleStart(interaction: CommandInteraction) {
         
         activeFocusSessions.delete(sessionKey);
       }
-    }, 90 * 60 * 1000);
+    }, 1 * 60 * 1000);
 
     activeFocusSessions.set(sessionKey, { 
       timeout, 
