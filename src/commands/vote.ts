@@ -95,17 +95,14 @@ export async function execute(interaction: ChatInputCommandInteraction) {
       return;
     }
     
-    const message = await interaction.followUp({
+    const message = await interaction.reply({
       content: question,
-      ephemeral: false,
-      fetchReply: true
+      fetchReply: true,
+      ephemeral: false
     });
+    await message.react('1️⃣');
+    await message.react('2️⃣');
 
-    // React to the message
-    if (message?.react) {
-      await message.react('1️⃣');
-      await message.react('2️⃣');
-    }
   } catch (error) {
     console.error('Error in vote command:', error);
     
