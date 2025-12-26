@@ -14,19 +14,19 @@ function formatPokemonName(name: string): string {
 
 function getRandomContext(): string {
   const contextTypes = [
-    'no_context',
+    'in_context',
     'bis'
   ];
   
   const contextType = randomElement(contextTypes);
   
   switch (contextType) {
-    case 'no_context':
-      return 'no context';
+    case 'in_context':
+      return 'in context';
     case 'bis':
       return 'with BiS';
     default:
-      return 'no context';
+      return 'in context';
   }
 }
 
