@@ -43,7 +43,7 @@ module.exports = {
     .addSubcommand(subcommand =>
       subcommand
         .setName('stats')
-        .setDescription('View your focus statistics')
+        .setDescription('View your block statistics')
     ),
   
   async execute(interaction: CommandInteraction) {
@@ -76,7 +76,7 @@ async function handleStatus(interaction: CommandInteraction) {
 
   if (!session) {
     return interaction.reply({ 
-      content: 'No active focus session.', 
+      content: 'No active block.', 
       ephemeral: true 
     });
   }
@@ -86,7 +86,7 @@ async function handleStatus(interaction: CommandInteraction) {
   const minutesLeft = Math.ceil(remaining / 60000);
 
   return interaction.reply({ 
-    content: `Focus session active. ${minutesLeft} minutes remaining.`, 
+    content: `Time-out active. ${minutesLeft} minutes remaining.`, 
     ephemeral: true 
   });
 }
@@ -106,7 +106,7 @@ async function handleStart(interaction: CommandInteraction) {
 
   if (activeFocusSessions.has(sessionKey)) {
     return interaction.reply({ 
-      content: 'You already have an active focus session.', 
+      content: 'You already have an active block.', 
       ephemeral: true 
     });
   }
@@ -126,7 +126,7 @@ async function handleStart(interaction: CommandInteraction) {
     await member.roles.add(timeoutRole);
 
     await interaction.reply({ 
-      content: `Focus mode activated for 90 minutes. You cannot interact on the server.`,
+      content: `Block activated for 90 minutes. You cannot interact on the server.`,
       ephemeral: false 
     });
 
@@ -141,7 +141,7 @@ async function handleStart(interaction: CommandInteraction) {
         const randomPokemonId = Math.floor(Math.random() * 1025) + 1;
         const isShiny = Math.random() < (1 / 20);
 
-        let sightingMessage = `<@${userId}> You can interact on the server again. 90 min focused.\n`;
+        let sightingMessage = `<@${userId}> You can interact on the server again!\n`;
 
         try {
           const pokeData = await fetchPokeAPI(`https://pokeapi.co/api/v2/pokemon/${randomPokemonId}`) as PokeAPIResponse;
@@ -211,7 +211,7 @@ async function handleStart(interaction: CommandInteraction) {
   } catch (error) {
     console.error('Error starting focus session:', error);
     return interaction.reply({ 
-      content: 'Failed to start focus session.', 
+      content: 'Failed to start block.', 
       ephemeral: true 
     });
   }
@@ -234,7 +234,7 @@ async function handleEnd(interaction: CommandInteraction) {
 
   if (!session) {
     return interaction.reply({ 
-      content: 'No active focus session to end.', 
+      content: 'No active block to end.', 
       ephemeral: true 
     });
   }
@@ -266,7 +266,7 @@ async function handleEnd(interaction: CommandInteraction) {
     activeFocusSessions.delete(sessionKey);
 
     return interaction.reply({ 
-      content: `Focus session ended. You focused for ${minutesFocused} minutes.`,
+      content: `Block ended. You timed yourself out for ${minutesFocused} minutes.`,
       ephemeral: false 
     });
 
@@ -287,15 +287,15 @@ async function handleStats(interaction: CommandInteraction) {
     const stats = await getFocusStats(interaction.user.id);
     
     if (!stats) {
-      return interaction.editReply('No focus sessions yet.');
+      return interaction.editReply('No blocks yet.');
     }
 
     const totalHours = (stats.totalMinutes / 60).toFixed(1);
     
     return interaction.editReply(
-      `Focus Statistics\n` +
+      `Statistics\n` +
       `Sessions completed: ${stats.sessionCount}\n` +
-      `Total hours focused: ${totalHours}`
+      `Total hours timed-out: ${totalHours}`
     );
     
   } catch (error) {
