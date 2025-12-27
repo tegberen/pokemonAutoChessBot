@@ -3,6 +3,20 @@ import {
   CommandInteraction, 
   GuildMember 
 } from 'discord.js';
+import https from 'https';
+
+interface PokeAPIResponse {
+  name: string;
+  weight: number;
+  sprites: {
+    other: {
+      'official-artwork': {
+        front_default: string | null;
+		front_shiny: string | null;
+      };
+    };
+  };
+}
 
 // Store active focus sessions with start time
 const activeFocusSessions = new Map<string, { timeout: NodeJS.Timeout; startTime: number }>();
@@ -124,11 +138,55 @@ async function handleStart(interaction: CommandInteraction) {
         const { saveFocusSession } = require('../services/focusService');
         await saveFocusSession(userId, 90);
 
+        const randomPokemonId = Math.floor(Math.random() * 1025) + 1;
+        const isShiny = Math.random() < (1 / 20);
+
+        let sightingMessage = `<@${userId}> You can interact on the server again. 90 min focused.\n`;
+
+        try {
+          const pokeData = await fetchPokeAPI(`https://pokeapi.co/api/v2/pokemon/${randomPokemonId}`) as PokeAPIResponse;
+          const pokemonName = pokeData.name.charAt(0).toUpperCase() + pokeData.name.slice(1);
+          const weight = pokeData.weight / 10; // converts to kg
+
+          if (isShiny) {
+            const imageUrl = pokeData.sprites.other['official-artwork'].front_shiny;
+
+            sightingMessage += `Oh! You sighted a shiny ${pokemonName}! It was added to your collection. Weight: ${weight}kg`;
+
+            if (imageUrl) {
+              sightingMessage += `\n${imageUrl}`;
+            }
+
+            try {
+              const { savePokemonCatch } = require('../services/pokemonService');
+              await savePokemonCatch(userId, {
+                pokemonId: randomPokemonId,
+                pokemonName,
+                weight,
+                imageUrl,
+                caughtAt: new Date()
+              });
+            } catch (dbError) {
+              console.error('Failed to save shiny Pokémon:', dbError);
+              sightingMessage += ' (Failed to save to collection)';
+            }
+          } else {
+            const imageUrl = pokeData.sprites.other['official-artwork'].front_default;
+            
+            sightingMessage += `Oh! You sighted a ${pokemonName}. Too bad it's not shiny ... not worth collecting. Weight: ${weight}kg`;
+            
+            if (imageUrl) {
+              sightingMessage += `\n${imageUrl}`;
+            }
+          }
+        } catch (pokeError) {
+          console.error('Failed to fetch Pokémon data:', pokeError);
+          sightingMessage += `Oh! You sighted a Pokémon...but it got away!`;
+        }
+
         const channel = interaction.channel;
         if (channel && channel.isTextBased()) {
-          await channel.send(
-            `<@${userId}> Focus session complete. 90 minutes focused.`
-          );
+          await channel.send(sightingMessage);
         }
 
         activeFocusSessions.delete(sessionKey);
@@ -244,4 +302,25 @@ async function handleStats(interaction: CommandInteraction) {
     console.error('Error:', error);
     return interaction.editReply('Error loading focus stats.');
   }
+}
+
+function fetchPokeAPI(url: string): Promise<unknown> {
+  return new Promise((resolve, reject) => {
+    const options = {
+      headers: {
+        'User-Agent': 'discord bot - focus command'
+      }
+    };
+    https.get(url, options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => data += chunk);
+      res.on('end', () => {
+        try {
+          resolve(JSON.parse(data));
+        } catch (e) {
+          reject(e);
+        }
+      });
+    }).on('error', reject);
+  });
 }
