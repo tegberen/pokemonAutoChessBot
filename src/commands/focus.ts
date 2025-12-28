@@ -1,9 +1,11 @@
 import { 
-  SlashCommandBuilder, 
+  SlashCommandBuilder
+} from 'discord.js';
+import type { 
   CommandInteraction, 
   GuildMember 
 } from 'discord.js';
-import https from 'https';
+import https from 'node:https';
 
 interface PokeAPIResponse {
   name: string;
@@ -12,7 +14,7 @@ interface PokeAPIResponse {
     other: {
       'official-artwork': {
         front_default: string | null;
-		front_shiny: string | null;
+        front_shiny: string | null;
       };
     };
   };
@@ -126,7 +128,7 @@ async function handleStart(interaction: CommandInteraction) {
     await member.roles.add(timeoutRole);
 
     await interaction.reply({ 
-      content: `Block activated for 90 minutes. You cannot interact on the server.`,
+      content: 'Block activated for 90 minutes. You cannot interact on the server.',
       ephemeral: false 
     });
 
@@ -134,11 +136,7 @@ async function handleStart(interaction: CommandInteraction) {
       try {
         await member.roles.remove(timeoutRole);
 
-        // Import dynamically to avoid circular deps
-        const { saveFocusSession } = require('../services/focusService');
-        await saveFocusSession(userId, 90);
-
-        const randomPokemonId = Math.floor(Math.random() * 1025) + 1;
+        const randomPokemonId = Math.floor(Math.random() * 1025) + 1;   
         const isShiny = Math.random() < (1 / 20);
 
         let sightingMessage = `<@${userId}> You can interact on the server again!\n`;
@@ -153,41 +151,28 @@ async function handleStart(interaction: CommandInteraction) {
 
             sightingMessage += `Oh! You sighted a shiny ${pokemonName}! It was added to your collection. Weight: ${weight}kg`;
 
-            if (imageUrl) {
-              sightingMessage += `\n${imageUrl}`;
-            }
-
-            try {
-              const { savePokemonCatch } = require('../services/pokemonService');
-              await savePokemonCatch(userId, {
-                pokemonId: randomPokemonId,
-                pokemonName,
-                weight,
-                imageUrl,
-                caughtAt: new Date()
-              });
-            } catch (dbError) {
-              console.error('Failed to save shiny Pokémon:', dbError);
-              sightingMessage += ' (Failed to save to collection)';
-            }
+            await interaction.channel?.send({
+              content: sightingMessage,
+              files: imageUrl ? [imageUrl] : []
+            });
           } else {
             const imageUrl = pokeData.sprites.other['official-artwork'].front_default;
             
             sightingMessage += `Oh! You sighted a ${pokemonName}. Too bad it's not shiny ... not worth collecting. Weight: ${weight}kg`;
-            
-            if (imageUrl) {
-              sightingMessage += `\n${imageUrl}`;
-            }
+
+            await interaction.channel?.send({
+              content: sightingMessage,
+              files: imageUrl ? [imageUrl] : []
+            });
           }
         } catch (pokeError) {
           console.error('Failed to fetch Pokémon data:', pokeError);
-          sightingMessage += `Oh! You sighted a Pokémon...but it got away!`;
-        }
-
-        const channel = interaction.channel;
-        if (channel && channel.isTextBased()) {
-          await channel.send(sightingMessage);
-        }
+          sightingMessage += 'Oh! You sighted a Pokémon...but it got away!';
+          
+          await interaction.channel?.send({
+            content: sightingMessage
+          });
+        } 
 
         activeFocusSessions.delete(sessionKey);
       } catch (error) {
@@ -258,11 +243,9 @@ async function handleEnd(interaction: CommandInteraction) {
     const elapsed = Date.now() - session.startTime;
     const minutesFocused = Math.floor(elapsed / 60000);
 
-    // Save the partial session
     const { saveFocusSession } = require('../services/focusService');
     await saveFocusSession(userId, minutesFocused);
 
-    // Remove from active sessions
     activeFocusSessions.delete(sessionKey);
 
     return interaction.reply({ 
@@ -293,9 +276,9 @@ async function handleStats(interaction: CommandInteraction) {
     const totalHours = (stats.totalMinutes / 60).toFixed(1);
     
     return interaction.editReply(
-      `Statistics\n` +
-      `Sessions completed: ${stats.sessionCount}\n` +
-      `Total hours timed-out: ${totalHours}`
+      `Statistics\n
+       Sessions completed: ${stats.sessionCount}\n
+       Total hours timed-out: ${totalHours}`
     );
     
   } catch (error) {
@@ -313,7 +296,9 @@ function fetchPokeAPI(url: string): Promise<unknown> {
     };
     https.get(url, options, (res) => {
       let data = '';
-      res.on('data', (chunk) => data += chunk);
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
       res.on('end', () => {
         try {
           resolve(JSON.parse(data));
