@@ -15,7 +15,9 @@ function formatPokemonName(name: string): string {
 function getRandomContext(): string {
   const contextTypes = [
     'in_context',
-    'bis'
+    'bis',
+    'pets',
+    'style'
   ];
   
   const contextType = randomElement(contextTypes);
@@ -25,8 +27,12 @@ function getRandomContext(): string {
       return 'in context';
     case 'bis':
       return 'with BiS';
+    case 'pets':
+      return 'as your pet';
+    case 'style':
+      return 'for more style points';
     default:
-      return 'in context';
+      return 'in their synergies';
   }
 }
 
@@ -91,6 +97,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     const message = await interaction.fetchReply();
     await message.react('1️⃣');
     await message.react('2️⃣');
+    await message.react('<:koffthink:1424902985758281849>');
 
   } catch (error) {
     console.error('Error in vote command:', error);
