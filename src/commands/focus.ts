@@ -136,6 +136,9 @@ async function handleStart(interaction: CommandInteraction) {
       try {
         await member.roles.remove(timeoutRole);
 
+        const { saveFocusSession } = require('../services/focusService');
+        await saveFocusSession(userId, 90);
+        
         const randomPokemonId = Math.floor(Math.random() * 1025) + 1;   
         const isShiny = Math.random() < (1 / 20);
 
@@ -150,6 +153,20 @@ async function handleStart(interaction: CommandInteraction) {
             const imageUrl = pokeData.sprites.other['official-artwork'].front_shiny;
 
             sightingMessage += `Oh! You sighted a shiny ${pokemonName}! It was added to your collection. Weight: ${weight}kg`;
+
+            try {
+              const { savePokemonCatch } = require('../services/pokemonService');
+              await savePokemonCatch(userId, {
+                pokemonId: randomPokemonId,
+                pokemonName,
+                weight,
+                imageUrl,
+                caughtAt: new Date()
+              });
+            } catch (dbError) {
+              console.error('Failed to save shiny Pokémon:', dbError);
+              sightingMessage += ' (Failed to save to collection)';
+            }
 
             await interaction.channel?.send({
               content: sightingMessage,
