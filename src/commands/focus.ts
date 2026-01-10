@@ -140,7 +140,7 @@ async function handleStart(interaction: CommandInteraction) {
         await saveFocusSession(userId, 90);
         
         const randomPokemonId = Math.floor(Math.random() * 1025) + 1;   
-        const isShiny = Math.random() < (1 / 20);
+        const isShiny = Math.random() < (1 / 10);
 
         let sightingMessage = `<@${userId}> You can interact on the server again!\n`;
 
