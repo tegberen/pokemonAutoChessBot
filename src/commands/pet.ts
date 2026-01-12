@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const https = require('https');
+import { EmbedBuilder } from "discord.js"
 import { 
     catBreeds,
     dogBreeds,
@@ -85,7 +86,7 @@ module.exports = {
         const imageUrl = page.thumbnail?.source || page.original?.source;
         
         if (!imageUrl) {
-            return interaction.editReply(`You legally and ethically caught a ${pet}, it weighs ${randomWeight}kg`);
+            return interaction.editReply(`You only traveled ... fair enough`);
         }
 
         const fileSize = await getFileSize(imageUrl);
@@ -94,14 +95,29 @@ module.exports = {
         if (fileSize > MAX_SIZE) {
             console.log('img error');
             return interaction.editReply({
-            content: `You visit the shelter and pet a ${pet}, it looks like it weighs ${randomWeight}kg`,
+            content: `You only traveled ... fair enough.`,
             });
         }
-        
-        return interaction.editReply({
-            content: `You visit the shelter and pet a ${pet}, it looks like it weighs ${randomWeight}kg`,
-            files: [imageUrl]
-        });
+
+        function formatPetName(pet: string) {
+            // Replace underscores and # with spaces
+            const cleanPet = pet.replace(/[_#]/g, ' ').trim();
+
+            // Capitalize first letter of each word
+            return cleanPet
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
+
+        const displayPet = formatPetName(pet);
+ 
+        const embed = new EmbedBuilder()
+            .setTitle(`You traveled the world and pet a ${displayPet}`)
+            .setDescription(`It looks like it weighs ${randomWeight}kg`)
+            .setImage(imageUrl)
+
+        return interaction.editReply({ embeds: [embed] });
     
 		
 	} catch (err) {
@@ -124,7 +140,7 @@ function fetchWikipedia(url) {
   return new Promise((resolve, reject) => {
     const options = {
       headers: {
-        'User-Agent': 'discord bot - fish command'
+        'User-Agent': 'discord bot - pet command'
       }
     };
     https.get(url, options, (res) => {
