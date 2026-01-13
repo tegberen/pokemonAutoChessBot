@@ -1,17 +1,14 @@
 import { SlashCommandBuilder, AttachmentBuilder } from 'discord.js';
-import path from 'path';
+
+const CURSE_IMAGE = "https://raw.githubusercontent.com/tegberen/pokemonAutoChessBot/main/src/assets/curse.jpg";
 
 export const data = new SlashCommandBuilder()
   .setName('curse')
   .setDescription('me olmec, you curse ritual');
 
-export async function execute(interaction) {
-  const attachment = new AttachmentBuilder(
-    path.join(__dirname, '../assets/curse.jpg')
-  );
-
+export async function execute(interaction: any) {
   await interaction.reply({
     content: "⚐︎♒︎🕯︎ ☹︎□︎❒︎♎︎ ⧫︎♒︎♋︎⧫︎ ⬥︎♒︎♓︎♍︎♒︎ ⧫︎♒︎⍓︎ ⬧︎♒︎♋︎●︎●︎ ♌︎♏︎📪︎ □︎♐︎ ⧫︎♒︎♏︎ ✌︎●︎❍︎♓︎♑︎♒︎⧫︎⍓︎ ♌︎♏︎♓︎■︎♑︎📬︎ ✋︎ ⬧︎♒︎♋︎●︎●︎ ⬧︎◻︎❒︎♏︎♋︎♎︎ ⧫︎♒︎♏︎ ☹︎□︎❒︎♎︎🕯︎⬧︎ ♐︎♋︎♓︎⧫︎♒︎📪︎ ♍︎□︎❍︎❍︎♓︎⧫︎ ⬧︎♓︎■︎⬧︎ ◆︎■︎♎︎♏︎❒︎ ⍓︎□︎◆︎❒︎ ♑︎◆︎♓︎♎︎♋︎■︎♍︎♏︎📪︎ ⬧︎□︎ ◻︎●︎♏︎♋︎⬧︎♏︎📪︎ ●︎♏︎■︎♎︎ ❍︎♏︎ ⍓︎□︎◆︎❒︎ ♌︎●︎♏︎⬧︎⬧︎♓︎■︎♑︎ ♋︎■︎♎︎ ♒︎♏︎♏︎♎︎⬧︎ ❍︎⍓︎ ⬥︎□︎❒︎♎︎⬧︎📪︎ 🏱︎☹︎💧︎ ☝︎✋︎✞︎☜︎ ⚐︎☝︎☜︎☼︎🏱︎⚐︎☠︎",
-    files: [attachment]
+    files: [CURSE_IMAGE]
   });
 }
