@@ -1,23 +1,25 @@
 const { SlashCommandBuilder } = require('discord.js');
 const https = require('https');
 import { EmbedBuilder } from "discord.js"
-import { 
-    catBreeds,
-    dogBreeds,
-    sheepBreeds,
-    cattleBreeds,
-    donkeyBreeds,
-    goatBreeds,
-    pigBreeds,
-    turkeyBreeds,
-    chickenBreeds,
-    duckBreeds,
-    horseBreeds,
-    rabbitBreeds,
-    waterBuffaloBreeds
-
+import {
+  catBreeds,
+  dogBreeds,
+  sheepBreeds,
+  cattleBreeds,
+  donkeyBreeds,
+  goatBreeds,
+  pigBreeds,
+  turkeyBreeds,
+  chickenBreeds,
+  duckBreeds,
+  horseBreeds,
+  rabbitBreeds,
+  waterBuffaloBreeds,
+  fieldPokemon,
 } from '../data/pets';
 
+import { savePokemonCatch } from '../services/pokemonService';
+  
 interface WikiSearchResult {
   query?: {
     search?: Array<{ pageid: number }>;
@@ -39,85 +41,131 @@ interface WikiPageResult {
   };
 }
 
+interface PokeAPIResponse {
+  name: string;
+  sprites: {
+    other: {
+      'official-artwork': {
+        front_default: string | null;
+		front_shiny: string | null;
+      };
+    };
+  };
+}
+
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('pet')
+		.setName('pet') 
 		.setDescription('me olmec, you pet'),
   
 	async execute(interaction: any) {
 	await interaction.deferReply();
 	
 	try {
-        const allPetLists = [
-            ...catBreeds,
-            ...dogBreeds,
-            ...sheepBreeds,
-            ...cattleBreeds,
-            ...donkeyBreeds,
-            ...goatBreeds,
-            ...pigBreeds,
-            ...turkeyBreeds,
-            ...chickenBreeds,
-            ...duckBreeds,
-            ...horseBreeds,
-            ...rabbitBreeds,
-            ...waterBuffaloBreeds,
-        ];
+    const isPokemon = Math.random() < 0.005;
+    if (isPokemon) {
 
-        const pet = allPetLists[Math.floor(Math.random() * allPetLists.length)];
-        
-        const searchData = await fetchWikipedia(
-            `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(pet)}&format=json`
-        ) as WikiSearchResult;
-        
-        if (!searchData.query?.search?.[0]) {
-            return interaction.editReply(`You caught a ${pet}, but it got away!`);
-        }
-        
-        const pageId = searchData.query.search[0].pageid;
-        const pageData = await fetchWikipedia(
-            `https://en.wikipedia.org/w/api.php?action=query&pageids=${pageId}&prop=pageimages&piprop=original|thumbnail&pithumbsize=800&format=json`
-        ) as WikiPageResult;
-        
-        const weightRange = getPetWeightFromList(pet); // from your list-based function
-        const randomWeight = Math.floor(Math.random() * (weightRange.max - weightRange.min + 1)) + weightRange.min;
+			const pokemonId = fieldPokemon[Math.floor(Math.random() * fieldPokemon.length)];
+			const randomWeight = Math.floor(Math.random() * 1000) + 1;
+			const pokeData = await fetchPokeAPI(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`) as PokeAPIResponse;
+			const imageUrl = pokeData.sprites.other['official-artwork'].front_shiny;
+			const pokemonName = pokeData.name.charAt(0).toUpperCase() + pokeData.name.slice(1);
 
-        const page = pageData.query.pages[pageId];
-        const imageUrl = page.thumbnail?.source || page.original?.source;
-        
-        if (!imageUrl) {
-            return interaction.editReply(`You only traveled ... fair enough`);
-        }
+	        try {
+	          await savePokemonCatch(interaction.user.id, {
+	            pokemonId,
+	            pokemonName,
+	            weight: randomWeight,
+	            imageUrl,
+	            caughtAt: new Date()
+	          });
+	        } catch (dbError) {
+	          console.error('Failed to save Pokémon to database:', dbError);
+	        }
 
-        const fileSize = await getFileSize(imageUrl);
-        const MAX_SIZE = 25 * 1024 * 1024; //25mb
-        
-        if (fileSize > MAX_SIZE) {
-            console.log('img error');
-            return interaction.editReply({
-            content: `You only traveled ... fair enough.`,
-            });
-        }
+			if (!imageUrl) {
+				return interaction.editReply(`Super rare mythical pull. You caught a shiny ${pokemonName}! It weighs ${randomWeight}kg <:pog:1416513137536008272>`);
+			}
+			
 
-        function formatPetName(pet: string) {
-            // Replace underscores and # with spaces
-            const cleanPet = pet.replace(/[_#]/g, ' ').trim();
+			return interaction.editReply({
+				content: `Super rare mythical pull. You caught a shiny ${pokemonName}! It weighs ${randomWeight}kg <:pog:1416513137536008272>`,
+				files: [imageUrl]
+			});
+		
+    } else {
 
-            // Capitalize first letter of each word
-            return cleanPet
-                .split(' ')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ');
-        }
+      const allPetLists = [
+          ...catBreeds,
+          ...dogBreeds,
+          ...sheepBreeds,
+          ...cattleBreeds,
+          ...donkeyBreeds,
+          ...goatBreeds,
+          ...pigBreeds,
+          ...turkeyBreeds,
+          ...chickenBreeds,
+          ...duckBreeds,
+          ...horseBreeds,
+          ...rabbitBreeds,
+          ...waterBuffaloBreeds,
+      ];
 
-        const displayPet = formatPetName(pet);
- 
-        const embed = new EmbedBuilder()
-            .setTitle(`You traveled the world and pet a ${displayPet}`)
-            .setDescription(`It looks like it weighs ${randomWeight}kg`)
-            .setImage(imageUrl)
+      const pet = allPetLists[Math.floor(Math.random() * allPetLists.length)];
+      
+      const searchData = await fetchWikipedia(
+          `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(pet)}&format=json`
+      ) as WikiSearchResult;
+      
+      if (!searchData.query?.search?.[0]) {
+          return interaction.editReply(`You caught a ${pet}, but it got away!`);
+      }
+      
+      const pageId = searchData.query.search[0].pageid;
+      const pageData = await fetchWikipedia(
+          `https://en.wikipedia.org/w/api.php?action=query&pageids=${pageId}&prop=pageimages&piprop=original|thumbnail&pithumbsize=800&format=json`
+      ) as WikiPageResult;
+      
+      const weightRange = getPetWeightFromList(pet); // from your list-based function
+      const randomWeight = Math.floor(Math.random() * (weightRange.max - weightRange.min + 1)) + weightRange.min;
 
-        return interaction.editReply({ embeds: [embed] });
+      const page = pageData.query.pages[pageId];
+      const imageUrl = page.thumbnail?.source || page.original?.source;
+      
+      if (!imageUrl) {
+          return interaction.editReply(`You only traveled ... fair enough`);
+      }
+
+      const fileSize = await getFileSize(imageUrl);
+      const MAX_SIZE = 25 * 1024 * 1024; //25mb
+      
+      if (fileSize > MAX_SIZE) {
+          console.log('img error');
+          return interaction.editReply({
+          content: `You only traveled ... fair enough.`,
+          });
+      }
+
+      function formatPetName(pet: string) {
+          // Replace underscores and # with spaces
+          const cleanPet = pet.replace(/[_#]/g, ' ').trim();
+
+          // Capitalize first letter of each word
+          return cleanPet
+              .split(' ')
+              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(' ');
+      }
+
+      const displayPet = formatPetName(pet);
+
+      const embed = new EmbedBuilder()
+          .setTitle(`You traveled the world and pet a ${displayPet}`)
+          .setDescription(`It looks like it weighs ${randomWeight}kg`)
+          .setImage(imageUrl)
+
+      return interaction.editReply({ embeds: [embed] });
+  }
     
 		
 	} catch (err) {
@@ -156,6 +204,28 @@ function fetchWikipedia(url) {
     }).on('error', reject);
   });
 }
+
+function fetchPokeAPI(url: string): Promise<unknown> {
+  return new Promise((resolve, reject) => {
+    const options = {
+      headers: {
+        'User-Agent': 'discord bot - dig command'
+      }
+    };
+    https.get(url, options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => data += chunk);
+      res.on('end', () => {
+        try {
+          resolve(JSON.parse(data));
+        } catch (e) {
+          reject(e);
+        }
+      });
+    }).on('error', reject);
+  });
+}
+
 
 // Define strict weight ranges per category
 const petWeightMap: Record<string, { min: number; max: number }> = {

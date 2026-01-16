@@ -22,4 +22,49 @@ export const sheepBreeds = ["Afrikaner_sheep", "Algarve_Churro", "Algerian_Arab_
 
 export const turkeyBreeds = ["Beltsville_Small_White", "Broad_Breasted_White", "Bronze_turkey", "Flanders", "Heritage_turkey", "White_Holland"];
 
-export const waterBuffaloBreeds = ["Bhadawari", "Buffalypso", "Bulgarian_language", "Burmese_language", "Carabao", "Gaur", "Gayal", "Hong_Kong", "Italian_Mediterranean_buffalo", "Italian_language", "Jafarabadi_buffalo", "Komodo_(island)", "Madhya_Pradesh", "Maharashtra", "Maldhari", "Marajó", "Murrah_buffalo", "Mysore", "Portuguese_language", "Romanian_buffalo", "Siamese_buffalo", "Turkish_language", "Uttar_Pradesh"];
+export const waterBuffaloBreeds = ["Bhadawari", "Buffalypso", "Carabao", "Gaur", "Gayal", "Italian_Mediterranean_buffalo", "Italian_language", "Jafarabadi_buffalo", "Madhya_Pradesh", "Maharashtra", "Maldhari", "Marajó", "Murrah_buffalo", "Mysore", "Romanian_buffalo", "Siamese_buffalo", "Turkish_language", "Uttar_Pradesh"];
+
+export const fieldPokemon = [
+  37, 38,        // Vulpix, Ninetales
+  52, 53,        // Meowth, Persian
+  58, 59,        // Growlithe, Arcanine
+  133,           // Eevee
+  134, 135, 136, // Vaporeon, Jolteon, Flareon
+  196, 197,      // Espeon, Umbreon
+  470, 471,      // Leafeon, Glaceon
+  700,           // Sylveon
+  215,           // Sneasel
+  509, 510,      // Purrloin, Liepard
+  725, 726,      // Litten, Torracat
+  835, 836,      // Yamper, Boltund
+  906, 907,      // Sprigatito, Floragato
+  909, 910,      // Fuecoco, Crocalor
+
+  25, 26,        // Pikachu, Raichu
+  155, 156, // Cyndaquil line
+  161, 162,      // Sentret, Furret
+  263, 264,      // Zigzagoon, Linoone
+  427, 428,      // Buneary, Lopunny
+  659, 660,      // Bunnelby, Diggersby
+  819, 820,      // Skwovet, Greedent
+  921, 922,      // Pawmi, Pawmo
+
+  39, 40,        // Jigglypuff, Wigglytuff
+  300, 301,      // Skitty, Delcatty
+  572, 573,      // Minccino, Cinccino
+  702,           // Dedenne
+  778,           // Mimikyu
+  749,
+  750,
+  77,
+  78,
+  587,
+
+  312, 313,
+  309,
+  228,
+  229,
+  241,
+  261, 262,
+  777
+];
