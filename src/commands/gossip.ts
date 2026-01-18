@@ -155,7 +155,8 @@ export async function execute(interaction) {
 		`${randomName} should be timed out <:Angrytwig:1440529743391883345>`,
 		`I would never ban ${randomName} for playing ${randomSynergy1} <:snorlaxsideeye:1429987764924846160>`,
 		`Stop it. <:youwhat:1416513101607600279>`,
-		`<:BoomPants:1443728658262130800>`
+		`<:BoomPants:1443728658262130800>`,
+    `can we talk about the geopolitical and economic state of the world right now`
 	];
 	
 	const randomVariation = pick(variations);
