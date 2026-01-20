@@ -175,7 +175,7 @@ async function handleStart(interaction: CommandInteraction) {
           } else {
             const imageUrl = pokeData.sprites.other['official-artwork'].front_default;
             
-            sightingMessage += `Oh! You sighted a ${pokemonName}. Too bad it's not shiny ... not worth collecting. Weight: ${weight}kg`;
+            sightingMessage += `Oh! You sighted a ${pokemonName}. Well done Trainer! Weight: ${weight}kg`;
 
             await interaction.channel?.send({
               content: sightingMessage,
