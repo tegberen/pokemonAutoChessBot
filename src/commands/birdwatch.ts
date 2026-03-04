@@ -2,37 +2,14 @@ const { SlashCommandBuilder } = require('discord.js');
 const https = require('https');
 import { savePokemonCatch } from '../services/pokemonService';
 import {
-	 birdList,
-	
-     birdPokemon, 
-     SHINY_RATE,
-	
-	 SUPERMAN_RATE,
-	 SUPERMAN_QUOTES,
-	 SUPERMAN_IMAGE
-   } from '../data/animals';
+    birdList,
+    birdPokemon,
+    SUPERMAN_RATE,
+    SUPERMAN_QUOTES,
+    SUPERMAN_IMAGE
+} from '../data/animals';
 
-import { EmbedBuilder } from "discord.js"
-interface WikiSearchResult {
-  query?: {
-    search?: Array<{ pageid: number }>;
-  };
-}
-
-interface WikiPageResult {
-  query: {
-    pages: {
-      [key: string]: {
-        original?: {
-          source: string;
-        };
-        thumbnail?: {
-          source: string;
-        };
-      };
-    };
-  };
-}
+import { EmbedBuilder, AttachmentBuilder } from "discord.js"
 
 interface PokeAPIResponse {
   name: string;
@@ -40,154 +17,123 @@ interface PokeAPIResponse {
     other: {
       'official-artwork': {
         front_default: string | null;
-		front_shiny: string | null;
+        front_shiny: string | null;
       };
     };
   };
 }
 
 module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('birdwatch')
-		.setDescription('me olmec, you birdwatch'),
-  
-	async execute(interaction: any) {
-	await interaction.deferReply();
-	
-	try {
-		const isSuperman = Math.random() < SUPERMAN_RATE;
-		if (isSuperman) {
-			const randomQuote = SUPERMAN_QUOTES[Math.floor(Math.random() * SUPERMAN_QUOTES.length)];
-			
-			return interaction.editReply({
-				content: `${randomQuote}`,
-				files: [SUPERMAN_IMAGE]
-			});
-		}
-	
-		const isPokemon = Math.random() < SHINY_RATE;
-		
-		if (isPokemon) {
-			const pokemonId = birdPokemon[Math.floor(Math.random() * birdPokemon.length)];
-			const randomWeight = Math.floor(Math.random() * 1000) + 1;
-			
-			const pokeData = await fetchPokeAPI(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`) as PokeAPIResponse;
-			const imageUrl = pokeData.sprites.other['official-artwork'].front_shiny;
-			const pokemonName = pokeData.name.charAt(0).toUpperCase() + pokeData.name.slice(1);
-	        // Save to database
-	        try {
-	          await savePokemonCatch(interaction.user.id, {
-	            pokemonId,
-	            pokemonName,
-	            weight: randomWeight,
-	            imageUrl,
-	            caughtAt: new Date()
-	          });
-	        } catch (dbError) {
-	          console.error('Failed to save Pokémon to database:', dbError);
-	          // Continue anyway - user still gets the Pokémon in chat
-	        }
-			if (!imageUrl) {
-				return interaction.editReply(`Super rare mythical pull. You caught a shiny ${pokemonName}! It weighs ${randomWeight}kg`);
-			}
-			
-			return interaction.editReply({
-				content: `Super rare mythical pull. You caught a shiny ${pokemonName}! It weighs ${randomWeight}kg`,
-				files: [imageUrl]
-			});
-		
-		} else {
-			const bird = birdList[Math.floor(Math.random() * birdList.length)];
-			
-			const searchData = await fetchWikipedia(
-				`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(bird)}&format=json`
-			) as WikiSearchResult;
-			
-			if (!searchData.query?.search?.[0]) {
-				return interaction.editReply(`You caught a ${bird}, but it got away!`);
-			}
-			
-			const pageId = searchData.query.search[0].pageid;
-			const pageData = await fetchWikipedia(
-				`https://en.wikipedia.org/w/api.php?action=query&pageids=${pageId}&prop=pageimages&piprop=original|thumbnail&pithumbsize=800&format=json`
-			) as WikiPageResult;
-			
-			const weightRange = getWeightRange(bird);
-			const randomWeight = weightRange.max < 1 
-			  ? (Math.random() * (weightRange.max - weightRange.min) + weightRange.min).toFixed(1) // small case
-			  : Math.floor(Math.random() * (weightRange.max - weightRange.min + 1)) + weightRange.min;
-			
-			const page = pageData.query.pages[pageId];
-			const imageUrl = page.thumbnail?.source || page.original?.source;
-			
-			if (!imageUrl) {
-				return interaction.editReply(`You went birdwatching and saw a ${bird}, it weighs ${randomWeight}g`);
-			}
+    data: new SlashCommandBuilder()
+        .setName('birdwatch')
+        .setDescription('me olmec, you birdwatch'),
 
-      const embed = new EmbedBuilder()
-          .setTitle(`You went birdwatching and saw a ${bird}`)
-          .setDescription(`It weighs ${randomWeight}g`)
-          .setImage(imageUrl ?? null);
+    async execute(interaction: any) {
+        await interaction.deferReply();
 
-      return interaction.editReply({ embeds: [embed] });
-		}
-		
-	} catch (err) {
-		console.error(err);
-		return interaction.editReply("error bird img fetch");
-	}
-	}
+        try {
+            const isSuperman = Math.random() < SUPERMAN_RATE;
+            if (isSuperman) {
+                const randomQuote = SUPERMAN_QUOTES[Math.floor(Math.random() * SUPERMAN_QUOTES.length)];
+                return interaction.editReply({
+                    content: `${randomQuote}`,
+                    files: [SUPERMAN_IMAGE]
+                });
+            }
+
+            const isPokemon = Math.random() < 0.005;
+
+            if (isPokemon) {
+                const pokemonId = birdPokemon[Math.floor(Math.random() * birdPokemon.length)];
+                const randomWeight = Math.floor(Math.random() * 1000) + 1;
+
+                const pokeData = await fetchApi(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`) as PokeAPIResponse;
+                const imageUrl = pokeData.sprites.other['official-artwork'].front_shiny;
+                const pokemonName = pokeData.name.charAt(0).toUpperCase() + pokeData.name.slice(1);
+
+                try {
+                    await savePokemonCatch(interaction.user.id, {
+                        pokemonId,
+                        pokemonName,
+                        weight: randomWeight,
+                        imageUrl,
+                        caughtAt: new Date()
+                    });
+                } catch (dbError) {
+                    console.error('Failed to save Pokémon to database:', dbError);
+                }
+
+                if (!imageUrl) {
+                    return interaction.editReply(`Super rare mythical pull. You caught a shiny ${pokemonName}! It weighs ${randomWeight}kg`);
+                }
+
+                return interaction.editReply({
+                    content: `Super rare mythical pull. You caught a shiny ${pokemonName}! It weighs ${randomWeight}kg`,
+                    files: [imageUrl]
+                });
+
+            } else {
+                const bird = birdList[Math.floor(Math.random() * birdList.length)];
+
+                const weightRange = getWeightRange(bird);
+                const randomWeight = weightRange.max < 1
+                    ? (Math.random() * (weightRange.max - weightRange.min) + weightRange.min).toFixed(1)
+                    : Math.floor(Math.random() * (weightRange.max - weightRange.min + 1)) + weightRange.min;
+
+                const taxaData = await fetchApi(
+                    `https://api.inaturalist.org/v1/taxa?q=${encodeURIComponent(bird)}&photos=true&per_page=1`
+                ) as any;
+
+                const taxon = taxaData.results?.[0];
+                const imageUrl = taxon?.default_photo?.medium_url;
+
+                if (!imageUrl) {
+                    return interaction.editReply(`You went birdwatching and saw a ${bird}, it weighs ${randomWeight}g`);
+                }
+
+                const imageBuffer = await fetchImageBuffer(imageUrl);
+                const attachment = new AttachmentBuilder(imageBuffer, { name: 'bird.jpg' });
+                const embed = new EmbedBuilder()
+                    .setTitle(`You went birdwatching and saw a ${bird}`)
+                    .setDescription(`It weighs ${randomWeight}g`)
+                    .setImage('attachment://bird.jpg');
+
+                return interaction.editReply({ embeds: [embed], files: [attachment] });
+            }
+
+        } catch (err) {
+            console.error(err);
+            return interaction.editReply("error bird img fetch");
+        }
+    }
 };
 
-function getFileSize(url: string): Promise<number> {
-  return new Promise((resolve, reject) => {
-    https.get(url, { method: 'HEAD' }, (res) => {
-      const size = parseInt(res.headers['content-length'] || '0', 10);
-      resolve(size);
-    }).on('error', reject);
-  });
+//////////////////////////////////////////////// HELPER ////////////////////////////////////////////////
+
+function fetchApi(url: string): Promise<unknown> {
+    return new Promise((resolve, reject) => {
+        const options = {
+            headers: { 'User-Agent': 'discord bot - birdwatch command' }
+        };
+        https.get(url, options, (res) => {
+            let data = '';
+            res.on('data', (chunk) => data += chunk);
+            res.on('end', () => {
+                try { resolve(JSON.parse(data)); }
+                catch (e) { reject(e); }
+            });
+        }).on('error', reject);
+    });
 }
 
-function fetchWikipedia(url) {
-  return new Promise((resolve, reject) => {
-    const options = {
-      headers: {
-        'User-Agent': 'discord bot - animal command'
-      }
-    };
-    https.get(url, options, (res) => {
-      let data = '';
-      res.on('data', (chunk) => data += chunk);
-      res.on('end', () => {
-        try {
-          resolve(JSON.parse(data));
-        } catch (e) {
-          reject(e);
-        }
-      });
-    }).on('error', reject);
-  });
-}
-
-function fetchPokeAPI(url: string): Promise<unknown> {
-  return new Promise((resolve, reject) => {
-    const options = {
-      headers: {
-        'User-Agent': 'discord bot - animal command'
-      }
-    };
-    https.get(url, options, (res) => {
-      let data = '';
-      res.on('data', (chunk) => data += chunk);
-      res.on('end', () => {
-        try {
-          resolve(JSON.parse(data));
-        } catch (e) {
-          reject(e);
-        }
-      });
-    }).on('error', reject);
-  });
+function fetchImageBuffer(url: string): Promise<Buffer> {
+    return new Promise((resolve, reject) => {
+        https.get(url, { headers: { 'User-Agent': 'discord bot - birdwatch command' } }, (res) => {
+            const chunks: Buffer[] = [];
+            res.on('data', (chunk) => chunks.push(chunk));
+            res.on('end', () => resolve(Buffer.concat(chunks)));
+        }).on('error', reject);
+    });
 }
 
 function getWeightRange(animalName: string): { min: number; max: number } {
