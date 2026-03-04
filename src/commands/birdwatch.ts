@@ -12,7 +12,7 @@ import {
 	 SUPERMAN_IMAGE
    } from '../data/animals';
 
-// add ifaces
+import { EmbedBuilder } from "discord.js"
 interface WikiSearchResult {
   query?: {
     search?: Array<{ pageid: number }>;
@@ -88,11 +88,11 @@ module.exports = {
 	          // Continue anyway - user still gets the Pokémon in chat
 	        }
 			if (!imageUrl) {
-				return interaction.editReply(`Super rare mythical pull. You caught a shiny ${pokemonName}! It weighs ${randomWeight}kg <:pog:1416513137536008272>`);
+				return interaction.editReply(`Super rare mythical pull. You caught a shiny ${pokemonName}! It weighs ${randomWeight}kg`);
 			}
 			
 			return interaction.editReply({
-				content: `Super rare mythical pull. You caught a shiny ${pokemonName}! It weighs ${randomWeight}kg <:pog:1416513137536008272>`,
+				content: `Super rare mythical pull. You caught a shiny ${pokemonName}! It weighs ${randomWeight}kg`,
 				files: [imageUrl]
 			});
 		
@@ -124,20 +124,12 @@ module.exports = {
 				return interaction.editReply(`You went birdwatching and saw a ${bird}, it weighs ${randomWeight}g`);
 			}
 
-			const fileSize = await getFileSize(imageUrl);
-			const MAX_SIZE = 25 * 1024 * 1024; //25mb
-			
-			if (fileSize > MAX_SIZE) {
-				console.log(`img error`);
-				return interaction.editReply({
-				content: `You went birdwatching and saw a ${bird}, it weighs ${randomWeight}g`,
-				});
-			}
-			
-			return interaction.editReply({
-				content: `You went birdwatching and saw a ${bird}, it weighs ${randomWeight}g`,
-				files: [imageUrl]
-			});
+      const embed = new EmbedBuilder()
+          .setTitle(`You went birdwatching and saw a ${bird}`)
+          .setDescription(`It weighs ${randomWeight}g`)
+          .setImage(imageUrl ?? null);
+
+      return interaction.editReply({ embeds: [embed] });
 		}
 		
 	} catch (err) {

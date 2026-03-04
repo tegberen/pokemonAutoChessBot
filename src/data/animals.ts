@@ -1101,8 +1101,6 @@ export const dlcFishList = [
     "Pygmy right whale",
     "Gray whale",
     "Sperm whale",
-    "Pygmy sperm whale",
-    "Dwarf sperm whale",
     "Arnoux's beaked whale",
     "Baird's beaked whale",
     "Sato's beaked whale",

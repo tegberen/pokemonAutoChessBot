@@ -11,6 +11,8 @@ import {
 	 DLC_CATCH_RATE
    } from '../data/animals';
 
+import { EmbedBuilder } from "discord.js"
+
 interface WikiSearchResult {
   query?: {
     search?: Array<{ pageid: number }>;
@@ -77,11 +79,11 @@ module.exports = {
 	          // Continue anyway - user still gets the Pokémon in chat
 	        }
 			if (!imageUrl) {
-				return interaction.editReply(`Super rare mythical pull. You caught a shiny ${pokemonName}! It weighs ${randomWeight}kg <:pog:1416513137536008272>`);
+				return interaction.editReply(`Super rare mythical pull. You caught a shiny ${pokemonName}! It weighs ${randomWeight}kg`);
 			}
 			
 			return interaction.editReply({
-				content: `Super rare mythical pull. You caught a shiny ${pokemonName}! It weighs ${randomWeight}kg <:pog:1416513137536008272>`,
+				content: `Super rare mythical pull. You caught a shiny ${pokemonName}! It weighs ${randomWeight}kg`,
 				files: [imageUrl]
 			});
 		
@@ -90,11 +92,12 @@ module.exports = {
 			if (isTreasure) {
 				const treasure = fishTreasures[Math.floor(Math.random() * fishTreasures.length)];
 				const randomPrice = Math.floor(Math.random() * 1000000) + 1;
-				
-				return interaction.editReply({
-				content: `Wow a rare treasure!!! You reeled in ${treasure.name}, it is worth $${randomPrice}! <:pog:1416513137536008272>`,
-				files: [treasure.imageUrl]
-				});
+        const embed = new EmbedBuilder()
+            .setTitle(`Wow a rare treasure!!!`)
+            .setDescription(`You reeled in **${treasure.name}**, it is worth $${randomPrice}!`)
+            .setImage(treasure.imageUrl);
+
+        return interaction.editReply({ embeds: [embed] });
 			}
 
 			const isDLC = Math.random() < DLC_CATCH_RATE;
@@ -121,25 +124,17 @@ module.exports = {
 			
 			const page = pageData.query.pages[pageId];
 			const imageUrl = page.thumbnail?.source || page.original?.source;
+      if (!imageUrl) {
+          return interaction.editReply(`You leggoally and ethically caught a ${fish}, but it got away!`);
+      }
 			
-			if (!imageUrl) {
-				return interaction.editReply(`You legally and ethically caught a ${fish}, it weighs ${randomWeight}kg`);
-			}
+      const embed = new EmbedBuilder()
+          .setTitle(`You legally and ethically caught a ${fish}`)
+          .setDescription(`It weighs ${randomWeight}kg`)
+          .setImage(imageUrl);
 
-			const fileSize = await getFileSize(imageUrl);
-			const MAX_SIZE = 25 * 1024 * 1024; //25mb
-			
-			if (fileSize > MAX_SIZE) {
-				console.log(`img error`);
-				return interaction.editReply({
-				content: `You legally and ethically caught a ${fish}, it weighs ${randomWeight}kg`,
-				});
-			}
-			
-			return interaction.editReply({
-				content: `You legally and ethically caught a ${fish}, it weighs ${randomWeight}kg`,
-				files: [imageUrl]
-			});
+      return interaction.editReply({ embeds: [embed] });
+
 		}
 		
 	} catch (err) {

@@ -24,7 +24,6 @@ const names = [
 	"seija",
 	"thomas wang",
 	"fake",
-	"grace",
 	"goose",
 	"spielearmy",
 	"vimby",
@@ -41,8 +40,14 @@ const names = [
 	"spanishcrow",
 	"katbor",
 	"esna",
-	"emi",
-	"kingz"
+	"kingz",
+  "strongdonk",
+  "vinper",
+  "slowplaying",
+  "sir smithy",
+  "hippo",
+  "improvise"
+
 ];
 
 const synergies = [

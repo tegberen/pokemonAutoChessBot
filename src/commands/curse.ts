@@ -1,7 +1,5 @@
 import { SlashCommandBuilder, AttachmentBuilder } from 'discord.js';
 
-const CURSE_IMAGE = "https://raw.githubusercontent.com/tegberen/pokemonAutoChessBot/main/src/assets/curse.jpg";
-
 export const data = new SlashCommandBuilder()
   .setName('curse')
   .setDescription('me olmec, you curse ritual');
@@ -9,6 +7,5 @@ export const data = new SlashCommandBuilder()
 export async function execute(interaction: any) {
   await interaction.reply({
     content: "⚐︎♒︎🕯︎ ☹︎□︎❒︎♎︎ ⧫︎♒︎♋︎⧫︎ ⬥︎♒︎♓︎♍︎♒︎ ⧫︎♒︎⍓︎ ⬧︎♒︎♋︎●︎●︎ ♌︎♏︎📪︎ □︎♐︎ ⧫︎♒︎♏︎ ✌︎●︎❍︎♓︎♑︎♒︎⧫︎⍓︎ ♌︎♏︎♓︎■︎♑︎📬︎ ✋︎ ⬧︎♒︎♋︎●︎●︎ ⬧︎◻︎❒︎♏︎♋︎♎︎ ⧫︎♒︎♏︎ ☹︎□︎❒︎♎︎🕯︎⬧︎ ♐︎♋︎♓︎⧫︎♒︎📪︎ ♍︎□︎❍︎❍︎♓︎⧫︎ ⬧︎♓︎■︎⬧︎ ◆︎■︎♎︎♏︎❒︎ ⍓︎□︎◆︎❒︎ ♑︎◆︎♓︎♎︎♋︎■︎♍︎♏︎📪︎ ⬧︎□︎ ◻︎●︎♏︎♋︎⬧︎♏︎📪︎ ●︎♏︎■︎♎︎ ❍︎♏︎ ⍓︎□︎◆︎❒︎ ♌︎●︎♏︎⬧︎⬧︎♓︎■︎♑︎ ♋︎■︎♎︎ ♒︎♏︎♏︎♎︎⬧︎ ❍︎⍓︎ ⬥︎□︎❒︎♎︎⬧︎📪︎ 🏱︎☹︎💧︎ ☝︎✋︎✞︎☜︎ ⚐︎☝︎☜︎☼︎🏱︎⚐︎☠︎",
-    files: [CURSE_IMAGE]
   });
 }
