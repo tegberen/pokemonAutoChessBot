@@ -21,10 +21,6 @@ const client = new Client({
 	],
 }) as ClientWithCommands;
 
-client.on('debug', (info) => {
-  console.log('Debug:', info);
-});
-
 if (process.env.MONGO_URI) {
   Mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('Connected to MongoDB'))
