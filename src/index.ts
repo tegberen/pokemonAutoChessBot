@@ -76,7 +76,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 });
 
 console.log("Logging in...");
-client.login(process.env.BOT_TOKEN);
+client.login(process.env.BOT_TOKEN)
   .then(() => console.log("Logged in!"))
   .catch(err => console.error("Could not log in:", err));
 
