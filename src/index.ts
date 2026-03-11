@@ -8,6 +8,10 @@ import { cleanupFocusModeSessions } from './utils/focusCleanup';
 
 dotenv.config();
 
+process.on('unhandledRejection', (error) => {
+    console.error('Unhandled rejection:', error);
+});
+
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -58,10 +62,16 @@ client.on(Events.InteractionCreate, async (interaction) => {
 		await command.execute(interaction);
 	} catch (error) {
 		console.error(error);
-		await interaction.reply({
-			content: "There was an error while executing this command!",
-			ephemeral: true,
-		});
+    try {
+        const reply = { content: "There was an error while executing this command!", ephemeral: true };
+        if (interaction.deferred || interaction.replied) {
+            await interaction.editReply(reply);
+        } else {
+            await interaction.reply(reply);
+        }
+    } catch (replyError) {
+        console.error('Could not send error reply:', replyError); // log it, don't crash
+    }
 	}
 });
 
